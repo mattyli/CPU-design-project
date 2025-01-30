@@ -2,7 +2,7 @@ module mux2to1 (
 in_0,
 in_1,
 select,
-mux_out,    
+mux_out  
 );
 
 input wire [31:0]in_0, in_1; 

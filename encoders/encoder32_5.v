@@ -1,18 +1,19 @@
 // selects the active input and outputs the 5 bit binary indexer
+// refer to CPU doc Fig. 3 "A typical bus"
 
 module encoder32_5 (
     input wire [31:0]encoder_in;
     output reg[4:0]encoder_out;
 );
     always @(encoder_in) begin
-        if(encoder_in[31]==1) encoder_out=5'b11111;
+        if(encoder_in[31]==1) encoder_out=5'b11111;				// here down (unused)
 		else if (encoder_in[30]==1) encoder_out=5'b11110;
 		else if (encoder_in[29]==1) encoder_out=5'b11101;
 		else if (encoder_in[28]==1) encoder_out=5'b11100;
 		else if (encoder_in[27]==1) encoder_out=5'b11011;
 		else if (encoder_in[26]==1) encoder_out=5'b11010;
 		else if (encoder_in[25]==1) encoder_out=5'b11001;
-		else if (encoder_in[24]==1) encoder_out=5'b11000;
+		else if (encoder_in[24]==1) encoder_out=5'b11000;		// here up (unused)
 		else if (encoder_in[23]==1) encoder_out=5'b10111;
 		else if (encoder_in[22]==1) encoder_out=5'b10110;
 		else if (encoder_in[21]==1) encoder_out=5'b10101;

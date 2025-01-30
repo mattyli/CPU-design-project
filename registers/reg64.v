@@ -1,11 +1,4 @@
-module reg64 (
-    clr,
-    clk,
-    enable,
-    D,
-    Qhi,
-    Qlo
-);
+module reg64 (clr, clk, enable, D, Qhi, Qlo);
     input clr, clk, enable;
     input wire [63:0]D;         // D is 64 bit input (so after multiplication)
     output reg [31:0]Qhi, Qlo;  // Qhi stores 32 MSB, Qlo stores 32 LSB
@@ -19,6 +12,4 @@ module reg64 (
             Qlo <= D[31:0];     // 32 LSB      
 
     end
-    
-    
 endmodule

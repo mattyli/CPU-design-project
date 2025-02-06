@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 
-module alu(A, B, clock, clear, opcode, control, C);
+module alu(A, B, clock, clear, opcode, C);
     input wire [31:0] A, B;                         // 32 bit inputs (could make this variable)
     input wire clock, clear;                       
     input wire [4:0] opcode;                        // control signal that will determine which operation

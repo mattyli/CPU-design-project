@@ -24,7 +24,7 @@ module divide32(divisor, dividend, quotient);
             dividend_register = dividend;
         
         if (divisor[31])
-            divisor_register = -divisor;       // 33 bits {} is concatenate
+            divisor_register = -divisor;      
         else
             divisor_register = divisor;
 
@@ -32,7 +32,7 @@ module divide32(divisor, dividend, quotient);
         AQ = {32'd0, dividend_register};                            // A is n+1 bits (33)
         
         // Step 1:
-        for (i=0, i<32, i=i+1) begin
+        for (i=0; i<32; i=i+1) begin
             AQ = AQ << 1;            // left shift AQ
 
             // Use MSB to check sign
@@ -50,10 +50,10 @@ module divide32(divisor, dividend, quotient);
         end
         
         // Step 2: Ensuring positive remainder
-        if (AQ[64]==1'b1)
-            AQ[64:32] = AQ[64:32] + divisor_register;               // A = A + M
-        
-        quotient = AQ;  // assign the final answer
+        if (AQ[63]==1'b1) 
+            quotient = {AQ[63:32] + divisor_register, AQ[31:0]};               // A = A + M
+        else
+            quotient = {AQ[63:32], AQ[31:0]};                                   // assign the final answer
     end
 
 

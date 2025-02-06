@@ -22,5 +22,15 @@ module DataPath(clock, reset, stop, in_data, run);
          R10-R13: Arguement Registers
          R14-15: Return Value Registers
     */
+
+    alu myAlu (
+    .A(),
+    .B(),
+    .clock(),
+    .clear(),
+    .opcode(),
+    .control(),
+    .C()
+  );
     
 endmodule

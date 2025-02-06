@@ -4,3 +4,7 @@
 /simulation
 adder.v.bak
 bus_tb.v.bak
+*.bak
+*.qsf
+*.qws
+*.rpt

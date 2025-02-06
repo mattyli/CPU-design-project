@@ -32,13 +32,28 @@ module alu(A, B, clock, clear, opcode, control, C);
     // Phase 1 Operations
     add32 alu_add(.a(A), .b(B), .carry_in(1'd0), .sum(add32_result), .carry_out(add32_carryout));
     sub32 alu_sub(.a(A), .b(B), .carry_in(1'd0), .sum(sub32_result), .carry_out(sub32_carryout));
-
+    
     multiply32 alu_mul(.multiplicand(A), .multiplier(B), .product(mul64_result));
+    divide32 alu_div(.divisor(A), .dividend(B), .quotient(div64_result));
 
     always @(*) begin
         case(opcode)
             add: begin
-                C
+                C[31:0] = add32_result;
+                C[63:32] = {32{add32_result[31]}, add32_result};                // need to sign extend this based on the MSB of add32
+            end
+
+            sub: begin
+                C[31:0] = sub32_result;
+                C[63:32] = {32{sub32_result[31]}, sub32_result}; 
+            end
+
+            mul: begin
+                C[63:0] = mul64_result[63:0];
+            end
+
+            div: begin
+                C[63:0] = div64_result[63:0];
             end
         endcase
     end

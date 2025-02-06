@@ -22,6 +22,7 @@ module mul_tb;
   // If you have more registers, that’s fine, but for the demo we’ll do two.
   wire [31:0] R0_Q;
   wire [31:0] R1_Q;
+  wire [31:0] R2_Q;
 
   // We only connect R0_Q and R1_Q to BusMuxIn_R0 and BusMuxIn_R1, plus 
   // a constant input on C_sign_extended so we can load from that.
@@ -43,6 +44,25 @@ module mul_tb;
     .D(BusMuxOut),    // data from the bus
     .Q(R1_Q)          // goes to BusMuxIn_R1
   );
+
+  reg32 r2 (
+    .clr(clr),
+    .clk(clk),
+    .enable(R2_enable),
+    .D(BusMuxOut),    // data from the bus
+    .Q(R2_Q)          // goes to BusMuxIn_R1
+  );
+
+  alu myAlu (
+    .A(),
+    .B(),
+    .clock(),
+    .clear(),
+    .opcode(),
+    .control(),
+    .C()
+  );
+
 
   bus myBus (
     // “out” signals (which cause one input to drive the bus):
@@ -75,7 +95,7 @@ module mul_tb;
     .BusMuxIn_R0   (R0_Q),
     .BusMuxIn_R1   (R1_Q),
     // The rest are not used in this demo
-    .BusMuxIn_R2   (32'b0),
+    .BusMuxIn_R2   (R2_Q),
     .BusMuxIn_R3   (32'b0),
     .BusMuxIn_R4   (32'b0),
     .BusMuxIn_R5   (32'b0),
@@ -141,7 +161,7 @@ module mul_tb;
     @(posedge clk);
     clr = 0;  // de-assert reset
 
-    $display("=== Start transferring a value from C_sign_extended -> R0 -> R1 ===");
+    $display("=== Load 5 into R0 and 25 into R1 ===");
 
     // STEP 1: Put a known value on C_sign_extended and drive the bus from 'Cout'
     C_sign_extended = 32'hAABB_CCDD;

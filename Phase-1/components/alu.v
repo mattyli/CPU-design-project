@@ -40,12 +40,12 @@ module alu(A, B, clock, clear, opcode, C);
         case(opcode)
             add: begin
                 C[31:0] = add32_result;
-                C[63:32] = {32{add32_result[31]}, add32_result};                // need to sign extend this based on the MSB of add32
+                C[63:32] = {32{add32_result[31]}};                // need to sign extend this based on the MSB of add32
             end
 
             sub: begin
                 C[31:0] = sub32_result;
-                C[63:32] = {32{sub32_result[31]}, sub32_result}; 
+                C[63:32] = {32{sub32_result[31]}}; 
             end
 
             mul: begin

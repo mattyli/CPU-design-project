@@ -41,7 +41,7 @@ module multiply32(multiplicand, multiplier, product);
         multiplier_register = (multiplier << 1);        // left shift adds the trailing 0
 
         for (i=0; i<16; i = i+1) begin
-            pair_pattern = multiplier_register[2:0]
+            pair_pattern = multiplier_register[2:0];
 
             case (pair_pattern)
             3'b001, 3'b010: partial_product = partial_product + multiplicand_register;    // +1 * M

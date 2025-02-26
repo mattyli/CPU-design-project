@@ -32,8 +32,19 @@ module alu(A, B, clock, clear, opcode, C);
         logic_not = 5'b10010;  // NOT (1’s complement)
 
     // Phase 1 Operations
+    negate32 alu_neg(.a(A), .result(neg32_result));
+    not32 alu_not(.a(A), .result(not32_result));
+
+    rol32 alu_rol(.a(A), .num_shift(B), .result(rol32_result));
+    ror32 alu_ror(.a(A), .num_shift(B), .result(ror32_result));
+    shl32 alu_shl(.a(A), .num_shift(B), .result(shl32_result));
+    shr32 alu_shr(.a(A), .num_shift(B), .result(shr32_result));
+    shla32 alu_shla(.a(A), .num_shift(B), .result(shla32_result));
+    shra32 alu_shra(.a(A), .num_shift(B), .result(shra32_result));
+
     and32 alu_and(.a(A), .b(B), .result(and32_result));
-    or32 alu_or(.a(A), .b(B), )
+    or32 alu_or(.a(A), .b(B), .result(or32_result));
+    xor32 alu_xor(.a(A), .b(B), .result(xor32_result));
 
     add32 alu_add(.a(A), .b(B), .carry_in(1'd0), .sum(add32_result), .carry_out(add32_carryout));
     sub32 alu_sub(.a(A), .b(B), .carry_in(1'd0), .sum(sub32_result), .carry_out(sub32_carryout));
@@ -60,7 +71,42 @@ module alu(A, B, clock, clear, opcode, C);
             div: begin
                 C[63:0] = div64_result[63:0];
             end
-
+            logic_and: begin
+                C[31:0] = and32_result;
+            end
+            logic_or: begin
+                C[31:0] = or32_result;
+            end
+            logic_neg: begin
+                C[31:0] = neg32_result;
+            end
+            logic_xor: begin
+                C[31:0] = xor32_result;
+            end
+            logic_nor: begin
+                C[31:0] = nor32_result;
+            end
+            logic_not: begin
+                C[31:0] = nor32_result;
+            end
+            shr: begin
+                C[31:0] = shr32_result;
+            end
+            shl: begin
+                C[31:0] = shl32_result;
+            end
+            shra: begin
+                C[31:0] = shra32_result;
+            end
+            shla: begin
+                C[31:0] = shla32_result;
+            end
+            ror: begin
+                C[31:0] = ror32_result;
+            end
+            rol: begin
+                C[31:0] = rol32_result;
+            end
         endcase
     end
     

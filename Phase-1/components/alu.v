@@ -7,8 +7,10 @@ module alu(A, B, clock, clear, opcode, C);
     output reg [63:0] C;                            // 64 bit output
 
     // wires for 32 bit results
-    wire [31:0] add32_result, sub32_result, add32_carryout, sub32_carryout;
-    wire [63:0] mul64_result, div64_result;
+    wire [31:0] add32_result, sub32_result, and32_result, or32_result, xor32_result, nor32_result, neg32_result,
+                not32_result, shr32_result, shl32_result, shra32_result, ror32_result, rol32_result;
+	 wire add32_carryout, sub32_carryout;
+    wire [63:0] mul64_result, div64_result; 
     
     // opcodes as specified in the CPU spec document
     parameter   
@@ -30,6 +32,9 @@ module alu(A, B, clock, clear, opcode, C);
         logic_not = 5'b10010;  // NOT (1’s complement)
 
     // Phase 1 Operations
+    and32 alu_and(.a(A), .b(B), .result(and32_result));
+    or32 alu_or(.a(A), .b(B), )
+
     add32 alu_add(.a(A), .b(B), .carry_in(1'd0), .sum(add32_result), .carry_out(add32_carryout));
     sub32 alu_sub(.a(A), .b(B), .carry_in(1'd0), .sum(sub32_result), .carry_out(sub32_carryout));
     
@@ -55,6 +60,7 @@ module alu(A, B, clock, clear, opcode, C);
             div: begin
                 C[63:0] = div64_result[63:0];
             end
+
         endcase
     end
     

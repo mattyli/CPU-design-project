@@ -1,19 +1,23 @@
-module DataPath(clock, reset, stop, in_data, run);
+module datapath(clock, reset, stop, in_data, run, opcode, clear,
+		R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out,
+		R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in,
+		PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag, R15jal,
+		Zin, ZLowIn, ZHighIn, PCin, IRin, incPC, InPortIn, OutPortIn, HIout, LOout, ZLowOut, ZHighOut, MDRout, Cout, InPortOut, Mdatain);
      input wire clock, reset, stop;
-     input wire [31:0] in_data;
+     input wire [31:0] in_data, Mdatain;
      output wire [31:0] run;   
 
-     wire clear;
+     input wire clear;
      wire [63:0] C_Register_Out;
-     wire [4:0] opcode;
+     input wire [4:0] opcode;
 
      // these wires also feed into the 32 to 5 encoder
      // declaring the input and output wires to the 16 32-bit registers
-     wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out;
-     wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
+     input wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out;
+     input wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
     
-     wire PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag, R15jal,
-        Zin, PCin, IRin, incPC, InPortIn, OutPortIn, HIout, LOout, ZLowOut, ZHighOut, MDRout, Cout, InPortOut;
+     input wire PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag, R15jal,
+        Zin, ZHighIn, ZLowIn, PCin, IRin, incPC, InPortIn, OutPortIn, HIout, LOout, ZLowOut, ZHighOut, MDRout, Cout, InPortOut;
         
      // declare wires into the bus multiplexer
      wire [31:0] BusMuxIn_R0, BusMuxIn_R1, BusMuxIn_R2, 
@@ -63,7 +67,12 @@ module DataPath(clock, reset, stop, in_data, run);
      reg32 Y (clear, clock, Yin, BusMuxOut, Yout);
      reg32 InPort (clear, clock, InPortIn, in_data, BusMuxIn_InPort); 
      reg32 OutPort (clear, clock, OutPortIn, BusMuxOut, OutPortOut);
-     // mdr MDR (clock, clear, read, MDRin, BusMuxOut, MDRin, .M);
+
+     reg32_PC PC (clear, clock, incPC, PCin, BusMuxOut, BusMuxIn_PC);
+
+     reg32 IR (clear, clock, IRin, BusMuxOut, IRdata);
+	  
+     mdr MDR (.clk(clock), .clr(clear), .read(read), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .Q(BusMuxIn_MDR));
 
      bus myBus (
           // “out” signals (which cause one input to drive the bus): (from the encoder)

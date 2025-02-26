@@ -154,29 +154,29 @@ module add_tb;
 				clear <= 0;
                 Mdatain <= 32'd30;
                 #10 read <= 1; MDRin <= 1;
-                #15 read <= 0; MDRin <= 0;
+                #10 read <= 0; MDRin <= 0;
             end
             Reg_load1b: begin
                 #10 MDRout <= 1; R6in <= 1;
-                #15 MDRout <= 0; R6in <= 0; //Load R6 with value 30 from MDR
+                #10 MDRout <= 0; R6in <= 0; //Load R6 with value 30 from MDR
             end
             Reg_load2a: begin 
                 Mdatain <= 32'd25;
                 #10 read <= 1; MDRin <= 1;
-                #15 read <= 0; MDRin <= 0;
+                #10 read <= 0; MDRin <= 0;
             end
             Reg_load2b: begin
                 #10 MDRout <= 1; R7in <= 1; //Load R7 with value 25 from MDR
-                #15 MDRout <= 0; R7in <= 0;
+                #10 MDRout <= 0; R7in <= 0;
             end
             Reg_load3a: begin
                 Mdatain = 32'd10;
                 #10 read <= 1; MDRin <= 1; 
-                #15 read <= 0; MDRin <= 0;
+                #10 read <= 0; MDRin <= 0;
             end
             Reg_load3b: begin
                 #10 MDRout <= 1; R8in <= 1; //Initialize R8 with value 0
-                #15 MDRout <= 0; R8in <= 0;
+                #10 MDRout <= 0; R8in <= 0;
             end
 
             T0: begin

@@ -7,25 +7,26 @@ module mdr (
         read,   //read signal
         MDRin,  //Write and enable signals
         BusMuxOut,  //Data sent by the bus mux
-        MDatain,    //Data from memory
+        Mdatain,    //Data from memory
         D, //input D after MUX
         Q   //Output Q
     );
 
-    input wire clk, clr, read, MRin, BusMuxOut, MDatain;
+    input wire clk, clr, read, MDRin;
+	input wire [31:0] Mdatain, BusMuxOut;
     input wire [31:0]D;
-    output reg [31:0]Q;
+    output wire [31:0]Q;
 
     mux2_1 mdmux (
-        .in_0 (BusMuxOut),
-        .in_1 (MDatain),
+        .in_0 (Mdatain),
+        .in_1 (BusMuxOut),
         .select (read),
-        .out (D)
+        .mux_out (D)
     );
 
     reg32 MDR (
-        .clr(clr),
-        .clk(clk),
+        .clear(clr),
+        .clock(clk),
         .enable(MDRin),
         .D(D),
         .Q(Q)

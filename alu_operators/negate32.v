@@ -14,7 +14,7 @@ module negate32(a, result);
     not32 neg_inverted (.a(a), .result(inverted));          // the inverted number is on the inverted wire
     add32 out (.a(inverted),                       // add one to the inverted result
                     .b(32'd1),                          // constant 1
-                    .carry_in(32'd0), 
+                    .carry_in(0), 
                     .carry_out(carry_out));             // carry out ignored
 
 endmodule

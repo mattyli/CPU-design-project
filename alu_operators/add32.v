@@ -6,7 +6,7 @@
 */
 
 module add32(a, b, carry_in, sum, carry_out);
-    input wire [31:0] a,b;
+    input wire [31:0] a, b;
 	input wire carry_in;
 	output wire [31:0] sum;
 	output wire carry_out;

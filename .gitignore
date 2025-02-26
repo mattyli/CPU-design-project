@@ -4,7 +4,9 @@
 /simulation
 adder.v.bak
 bus_tb.v.bak
+cpu-design-project.qsf
+cpu-design-project_assignment_defaults.qdf
 *.bak
 *.qsf
 *.qws
-*.rpt
+*.rptS

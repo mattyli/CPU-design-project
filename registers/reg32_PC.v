@@ -16,8 +16,8 @@ initial PC = q0;
 always @(posedge clock) begin
     if (clear) 
         PC <= 0;
-    //else if (incPC == 1 && enable == 1)
-    //    PC <= PC + 4;
+    else if (incPC == 1 && enable == 1)
+       PC <= PC + 4;
     else if (enable == 1)
         PC <= instruct_PC;
 end

@@ -32,7 +32,7 @@ module alu(A, B, clock, clear, opcode, C);
         logic_not = 5'b10010;  // NOT (1’s complement)
 
     // Phase 1 Operations
-    negate32 alu_neg(.a(A), .result(neg32_result));
+    negate32 alu_neg(.a(B), .result(neg32_result));
     not32 alu_not(.a(A), .result(not32_result));
 
     rol32 alu_rol(.a(A), .num_shift(B), .result(rol32_result));
@@ -92,7 +92,7 @@ module alu(A, B, clock, clear, opcode, C);
                 C[63:32] = 32'b0;
             end
             logic_not: begin
-                C[31:0] = nor32_result;
+                C[31:0] = not32_result;
                 C[63:32] = 32'b0;
             end
             shr: begin
@@ -107,9 +107,6 @@ module alu(A, B, clock, clear, opcode, C);
                 C[31:0] = shra32_result;
                 C[63:32] = 32'b0;
             end
-            // shla: begin
-            //     C[31:0] = shla32_result;
-            // end
             ror: begin
                 C[31:0] = ror32_result;
                 C[63:32] = 32'b0;

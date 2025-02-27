@@ -42,7 +42,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
     */
      
     // this hasn't been declared yet
-     regR0 R0 (BAout, clear, clock, R0in, BusMuxOut, BusMuxIn_R0); //input signal is always 0 for R0 (special reg)
+     regR0 R0 (clear, clock, R0in, BusMuxOut, BusMuxIn_R0); //input signal is always 0 for R0 (special reg)
      reg32 R1 (clear, clock, R1in, BusMuxOut, BusMuxIn_R1);
      reg32 R2 (clear, clock, R2in, BusMuxOut, BusMuxIn_R2);    
      reg32 R3 (clear, clock, R3in, BusMuxOut, BusMuxIn_R3);  

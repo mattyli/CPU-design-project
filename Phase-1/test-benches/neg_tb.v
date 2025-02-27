@@ -94,6 +94,7 @@ module neg_tb;
         case(Present_state)
             Default: begin
 					clear <= 1;
+                    R0in <= 0;
                     R1in <= 0;
                     R2in <= 0;
                     R3in <= 0;
@@ -112,6 +113,7 @@ module neg_tb;
                     HIin <= 0;
                     LOin <= 0;
                     Mdatain <= 32'b0;
+                    R0out <= 0;
                     R1out <= 0;
                     R2out <= 0;
                     R3out <= 0;

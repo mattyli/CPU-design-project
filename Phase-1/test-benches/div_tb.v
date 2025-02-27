@@ -14,7 +14,7 @@ module div_tb;
 
     parameter   Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
                 Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, T0 = 4'b0111,
-                T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101, T7 = 4'b1110;
+                T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101;
 
     reg[3:0] Present_state = Default;
 
@@ -151,7 +151,7 @@ module div_tb;
             end
             Reg_load1a: begin
 				        clear <= 0;
-                Mdatain <= 32'd30;
+                Mdatain <= 32'b11111111111111111111111111111011;
                 #10 read <= 1; MDRin <= 1;
                 #15 read <= 0; MDRin <= 0;
             end
@@ -168,6 +168,16 @@ module div_tb;
                 #10 MDRout <= 1; R6in <= 1; //Load R7 with value 25 from MDR
                 #15 MDRout <= 0; R6in <= 0;
             end
+            // Reg_load3a: begin
+            //     Mdatain = 32'd10;
+            //     #10 read <= 1; MDRin <= 1; 
+            //     #15 read <= 0; MDRin <= 0;
+            // end
+            // Reg_load3b: begin
+            //     #10 MDRout <= 1; R7in <= 1; //Initialize R8 with value 0
+            //     #15 MDRout <= 0; R7in <= 0;
+            // end
+
             T0: begin
                 #10
                 incPC <= 1; MARin <= 1;     //Mock instruction fetch
@@ -202,13 +212,13 @@ module div_tb;
             end
             T5: begin 
                 #10
-                ZLowOut <= 1; LOin <= 1; //Quotient
+                ZLowOut <= 1; LOin <= 1;
                 #15
                 ZLowOut <= 0; LOin <= 0;
             end
             T6: begin
                 #10
-                ZHighOut <= 1; HIin <= 1; //Remainder
+                ZHighOut <= 1; HIin <= 1;
                 #15 
                 ZHighOut <= 0; HIin <= 0;     
             end          

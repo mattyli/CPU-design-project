@@ -148,7 +148,7 @@ module sub_tb;
                     read <= 0;
                     IRin <= 0;
                     PCin <= 0;
-                    opcode <= 5'b0;
+                    opcode <= 5'b11010;
             end
             Reg_load1a: begin
 				clear <= 0;
@@ -170,7 +170,7 @@ module sub_tb;
                 #15 MDRout <= 0; R3in <= 0;
             end
             Reg_load3a: begin
-                Mdatain = 32'd10;
+                Mdatain <= 32'd10;
                 #10 read <= 1; MDRin <= 1; 
                 #15 read <= 0; MDRin <= 0;
             end

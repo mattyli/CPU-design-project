@@ -3,7 +3,7 @@
 // R6 holds 30 R7 holds 25
 
 `timescale 1ns/10ps
-module and_tb;
+module sub_tb;
     reg clock, clear;
     reg R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
     reg HIin, LOin, Zin, incPC, MARin, MDRin, read, InPortIn, Yin, IRin, PCin;
@@ -148,35 +148,35 @@ module and_tb;
                     read <= 0;
                     IRin <= 0;
                     PCin <= 0;
-                    opcode <= 5'b11010;
+                    opcode <= 5'b0;
             end
             Reg_load1a: begin
 				clear <= 0;
-                Mdatain <= 32'b01010;
+                Mdatain <= 32'd30;
                 #10 read <= 1; MDRin <= 1;
-                #10 read <= 0; MDRin <= 0;
+                #15 read <= 0; MDRin <= 0;
             end
             Reg_load1b: begin
                 #10 MDRout <= 1; R4in <= 1;
-                #10 MDRout <= 0; R4in <= 0; //Load R6 with value 30 from MDR
+                #15 MDRout <= 0; R4in <= 0; //Load R6 with value 30 from MDR
             end
             Reg_load2a: begin 
-                Mdatain <= 32'b10110;
+                Mdatain <= 32'd25;
                 #10 read <= 1; MDRin <= 1;
-                #10 read <= 0; MDRin <= 0;
+                #15 read <= 0; MDRin <= 0;
             end
             Reg_load2b: begin
                 #10 MDRout <= 1; R3in <= 1; //Load R7 with value 25 from MDR
-                #10 MDRout <= 0; R3in <= 0;
+                #15 MDRout <= 0; R3in <= 0;
             end
             Reg_load3a: begin
-                Mdatain = 32'b0;
+                Mdatain = 32'd10;
                 #10 read <= 1; MDRin <= 1; 
-                #10 read <= 0; MDRin <= 0;
+                #15 read <= 0; MDRin <= 0;
             end
             Reg_load3b: begin
                 #10 MDRout <= 1; R7in <= 1; //Initialize R8 with value 0
-                #10 MDRout <= 0; R7in <= 0;
+                #15 MDRout <= 0; R7in <= 0;
             end
 
             T0: begin
@@ -190,7 +190,7 @@ module and_tb;
             T1: begin
                 #10 
                 PCin <= 1; read <= 1;
-                MDRin <= 1; Mdatain <= 5'b00101;
+                MDRin <= 1; Mdatain <= 5'b00100;
                 #15 
                 PCin <= 0; read <= 0;
                 MDRin <= 0; Mdatain <= 0;
@@ -208,7 +208,7 @@ module and_tb;
                 R4out <= 0; Yin <= 0;
             end
             T4: begin
-                R3out <= 1; opcode <= 5'b00101; Zin <= 1;
+                R3out <= 1; opcode <= 5'b00100; Zin <= 1;
                 #25 R3out <= 0; Zin <= 0; 
             end
             T5: begin 

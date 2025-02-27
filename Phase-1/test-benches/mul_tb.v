@@ -1,204 +1,226 @@
-/*
-  test bench for the for the multiply operation in the ALU
-*/
+//Testbench does the following operation
+//Add R4, R3, R7
+// R6 holds 30 R7 holds 25
 
-`timescale 1ns/1ps
-
+`timescale 1ns/10ps
 module mul_tb;
-  // -----------------------------
-  //  Wires and Regs for the Test
-  // -----------------------------
-  reg  clk, clr;
-  
-  // "Out" signals that go to the bus’s 32-5 encoder:
-  reg  R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out;
-  reg  R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out;
-  reg  HIout, LOout, ZHighOut, ZLowOut, PCout, MDRout, InPortOut, Cout;
+    reg clock, clear;
+    reg R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
+    reg HIin, LOin, Zin, incPC, MARin, MDRin, read, InPortIn, Yin, IRin, PCin;
+    reg R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out;
+    reg HIout, LOout,ZLowOut, ZHighOut, MDRout, Cout, InPortOut, PCout;
+    reg[4:0] opcode;
+    reg[31:0] Mdatain;
 
-  // Enables for writing into R0 and R1 (the “reg32” modules)
-  reg  R0_enable, R1_enable;
+    parameter   Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
+                Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, T0 = 4'b0111,
+                T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101, T7 = 4'b1110;
 
-  // We will only instantiate 2 registers here, R0 and R1. 
-  // If you have more registers, that’s fine, but for the demo we’ll do two.
-  wire [31:0] R0_Q;
-  wire [31:0] R1_Q;
-  wire [31:0] R2_Q;
+    reg[3:0] Present_state = Default;
 
-  // We only connect R0_Q and R1_Q to BusMuxIn_R0 and BusMuxIn_R1, plus 
-  // a constant input on C_sign_extended so we can load from that.
-  wire [31:0] BusMuxOut;
-  reg  [31:0] C_sign_extended;  // used as a “constant” input to the bus
+    datapath DUT(
+        .clear(clear),
+        .clock(clock),
+        .R0in(R0in),
+        .R1in(R1in),
+        .R2in(R2in),
+        .R3in(R3in),
+        .R4in(R4in),
+        .R5in(R5in),
+        .R6in(R6in),
+        .R7in(R7in),
+        .R8in(R8in),
+        .R9in(R9in),
+        .R10in(R10in),
+        .R11in(R11in),
+        .R12in(R12in),
+        .R13in(R13in),
+        .R14in(R14in),
+        .R15in(R15in),
+        .PCin(PCin),
+        .HIin(HIin),
+        .LOin(LOin),
+        .Zin(Zin),
+        .incPC(incPC),
+        .MARin(MARin),
+        .MDRin(MDRin),
+        .read(read),
+        .InPortIn(InPortIn),
+        .Yin(Yin),
+        .opcode(opcode),
+        .Mdatain(Mdatain),
 
-  reg32 r0 (
-    .clr(clr),
-    .clk(clk),
-    .enable(R0_enable),
-    .D(BusMuxOut),    // data from the bus
-    .Q(R0_Q)          // goes to BusMuxIn_R0
-  );
+        .R0out(R0out),
+        .R1out(R1out),
+        .R2out(R2out),
+        .R3out(R3out),
+        .R4out(R4out),
+        .R5out(R5out),
+        .R6out(R6out),
+        .R7out(R7out),
+        .R8out(R8out),
+        .R9out(R9out),
+        .R10out(R10out),
+        .R11out(R11out),
+        .R12out(R12out),
+        .R13out(R13out),
+        .R14out(R14out),
+        .R15out(R15out),
+        .PCout(PCout),
+        .HIout(HIout),
+        .LOout(LOout),
+        .ZHighOut(ZHighOut),
+        .ZLowOut(ZLowOut),
+        .MDRout(MDRout),
+        .InPortOut(InPortOut)
+        );
 
-  reg32 r1 (
-    .clr(clr),
-    .clk(clk),
-    .enable(R1_enable),
-    .D(BusMuxOut),    // data from the bus
-    .Q(R1_Q)          // goes to BusMuxIn_R1
-  );
+    initial clock = 0;
+    always #5 clock = ~clock;
+	
 
-  reg32 r2 (
-    .clr(clr),
-    .clk(clk),
-    .enable(R2_enable),
-    .D(BusMuxOut),    // data from the bus
-    .Q(R2_Q)          // goes to BusMuxIn_R1
-  );
+    always @(posedge clock) begin
+        case (Present_state)
+            Default     : #40 Present_state = Reg_load1a;
+            Reg_load1a  : #40 Present_state = Reg_load1b;
+            Reg_load1b  : #40 Present_state = Reg_load2a;
+            Reg_load2a  : #40 Present_state = Reg_load2b;
+            Reg_load2b  : #40 Present_state = T0;
+            T0          : #40 Present_state = T1;
+            T1          : #40 Present_state = T2;
+            T2          : #40 Present_state = T3;
+            T3          : #40 Present_state = T4;
+            T4          : #40 Present_state = T6;
+        endcase
+    end
 
-  alu myAlu (
-    .A(),
-    .B(),
-    .clock(),
-    .clear(),
-    .opcode(),
-    .control(),
-    .C()
-  );
+    always @(Present_state) begin
+        case(Present_state)
+            Default: begin
+					clear <= 1;
+                    R1in <= 0;
+                    R2in <= 0;
+                    R3in <= 0;
+                    R4in <= 0;
+                    R5in <= 0;
+                    R6in <= 0;
+                    R7in <= 0;
+                    R8in <= 0;
+                    R9in <= 0;
+                    R10in <= 0;
+                    R11in <= 0;
+                    R12in <= 0;
+                    R13in <= 0;
+                    R14in <= 0;
+                    R15in <= 0;
+                    HIin <= 0;
+                    LOin <= 0;
+                    Mdatain <= 32'b0;
+                    R1out <= 0;
+                    R2out <= 0;
+                    R3out <= 0;
+                    R4out <= 0;
+                    R5out <= 0;
+                    R6out <= 0;
+                    R7out <= 0;
+                    R8out <= 0;
+                    R9out <= 0;
+                    R10out <= 0;
+                    R11out <= 0;
+                    R12out <= 0;
+                    R13out <= 0;
+                    R14out <= 0;
+                    R15out <= 0;
+                    HIout <= 0;
+                    LOout <= 0;
+                    PCout <= 0;
+                    ZHighOut <= 0;
+                    ZLowOut <= 0;
+                    MDRout <= 0;
+                    InPortOut <= 0;
+                    InPortIn <= 0;
+                    Cout <= 0;
+                    incPC <= 0;
+                    MARin <= 0;
+                    MDRin <= 0;
+                    read <= 0;
+                    IRin <= 0;
+                    PCin <= 0;
+                    opcode <= 5'b0;
+            end
+            Reg_load1a: begin
+				        clear <= 0;
+                Mdatain <= 32'd30;
+                #10 read <= 1; MDRin <= 1;
+                #15 read <= 0; MDRin <= 0;
+            end
+            Reg_load1b: begin
+                #10 MDRout <= 1; R2in <= 1;
+                #15 MDRout <= 0; R2in <= 0; //Load R6 with value 30 from MDR
+            end
+            Reg_load2a: begin 
+                Mdatain <= 32'd25;
+                #10 read <= 1; MDRin <= 1;
+                #15 read <= 0; MDRin <= 0;
+            end
+            Reg_load2b: begin
+                #10 MDRout <= 1; R6in <= 1; //Load R7 with value 25 from MDR
+                #15 MDRout <= 0; R6in <= 0;
+            end
+            Reg_load3a: begin
+                Mdatain = 32'd10;
+                #10 read <= 1; MDRin <= 1; 
+                #15 read <= 0; MDRin <= 0;
+            end
+            // Reg_load3b: begin
+            //     #10 MDRout <= 1; R7in <= 1; //Initialize R8 with value 0
+            //     #15 MDRout <= 0; R7in <= 0;
+            // end
 
-
-  bus myBus (
-    // “out” signals (which cause one input to drive the bus):
-    .R0out   (R0out),
-    .R1out   (R1out),
-    .R2out   (R2out),
-    .R3out   (R3out),
-    .R4out   (R4out),
-    .R5out   (R5out),
-    .R6out   (R6out),
-    .R7out   (R7out),
-    .R8out   (R8out),
-    .R9out   (R9out),
-    .R10out  (R10out),
-    .R11out  (R11out),
-    .R12out  (R12out),
-    .R13out  (R13out),
-    .R14out  (R14out),
-    .R15out  (R15out),
-    .HIout   (HIout),
-    .LOout   (LOout),
-    .ZHighOut(ZHighOut),
-    .ZLowOut (ZLowOut),
-    .PCout   (PCout),
-    .MDRout  (MDRout),
-    .InPortOut(InPortOut),
-    .Cout    (Cout),
-
-    // “in” data lines to the mux
-    .BusMuxIn_R0   (R0_Q),
-    .BusMuxIn_R1   (R1_Q),
-    // The rest are not used in this demo
-    .BusMuxIn_R2   (R2_Q),
-    .BusMuxIn_R3   (32'b0),
-    .BusMuxIn_R4   (32'b0),
-    .BusMuxIn_R5   (32'b0),
-    .BusMuxIn_R6   (32'b0),
-    .BusMuxIn_R7   (32'b0),
-    .BusMuxIn_R8   (32'b0),
-    .BusMuxIn_R9   (32'b0),
-    .BusMuxIn_R10  (32'b0),
-    .BusMuxIn_R11  (32'b0),
-    .BusMuxIn_R12  (32'b0),
-    .BusMuxIn_R13  (32'b0),
-    .BusMuxIn_R14  (32'b0),
-    .BusMuxIn_R15  (32'b0),
-    .BusMuxIn_HI   (32'b0),
-    .BusMuxIn_LO   (32'b0),
-    .BusMuxIn_Zhigh(32'b0),
-    .BusMuxIn_Zlow (32'b0),
-    .BusMuxIn_PC   (32'b0),
-    .BusMuxIn_MDR  (32'b0),
-    .BusMuxIn_InPort(32'b0),
-    // We’ll drive this with a reg in the test bench
-    .C_sign_extended(C_sign_extended),
-    // Output of the bus mux
-    .BusMuxOut(BusMuxOut)
-  );
-
-  initial clk = 0;
-  always #5 clk = ~clk;  // 10 ns period => 100 MHz
-
-  initial begin
-    // Initialize control signals
-    clr         = 1;  // reset/clear
-    R0_enable   = 0;
-    R1_enable   = 0;
-    R0out       = 0;
-    R1out       = 0;
-    R2out       = 0;  // not used
-    R3out       = 0;
-    R4out       = 0;
-    R5out       = 0;
-    R6out       = 0;
-    R7out       = 0;
-    R8out       = 0;
-    R9out       = 0;
-    R10out      = 0;
-    R11out      = 0;
-    R12out      = 0;
-    R13out      = 0;
-    R14out      = 0;
-    R15out      = 0;
-    HIout       = 0;
-    LOout       = 0;
-    ZHighOut    = 0;
-    ZLowOut     = 0;
-    PCout       = 0;
-    MDRout      = 0;
-    InPortOut   = 0;
-    Cout        = 0;
-    C_sign_extended = 32'h0000_0000;
-
-    // Let reset propagate for a couple of clock edges
-    @(posedge clk);
-    @(posedge clk);
-    clr = 0;  // de-assert reset
-
-    $display("=== Load 5 into R0 and 25 into R1 ===");
-
-    // STEP 1: Put a known value on C_sign_extended and drive the bus from 'Cout'
-    C_sign_extended = 32'hAABB_CCDD;
-    Cout           = 1;       // select the constant input for the bus
-    R0_enable      = 1;       // enable writing into R0
-    @(posedge clk);           // wait one rising edge
-
-    // Now R0 should contain 0xAABB_CCDD
-    R0_enable      = 0;       // turn off write to R0
-    Cout           = 0;       // stop driving the bus from the constant
-
-    @(posedge clk);
-    // STEP 2: Transfer from R0 to R1 via the bus
-    // R0 should drive the bus, so set R0out=1
-    R0out          = 1;
-    R1_enable      = 1;
-    @(posedge clk);
-
-    // Now R1 should contain the same 0xAABB_CCDD
-    R1_enable      = 0;
-    R0out          = 0;
-
-    // need this clock edge to allow the movment over the bus
-    @(posedge clk);
-
-    // Display final contents
-    $display("R0 = 0x%08h", R0_Q);
-    $display("R1 = 0x%08h", R1_Q);
-
-    // Check correctness
-    if (R1_Q === 32'hAABB_CCDD)
-      $display("SUCCESS: R1 got the correct value from R0!");
-    else
-      $display("ERROR: R1 expected 0xAABB_CCDD but got 0x%08h", R1_Q);
-
-    // Done
-    $finish;
-  end
-
+            T0: begin
+                #10
+                incPC <= 1; MARin <= 1;     //Mock instruction fetch
+                PCout <= 1; //Zin <= 1;
+                #15
+                incPC <= 0; MARin <= 0;
+                PCout <= 0; //Zin <= 0;
+            end
+            T1: begin
+                #10 
+                PCin <= 1; read <= 1;
+                MDRin <= 1; Mdatain <= 5'b10000;
+                #15 
+                PCin <= 0; read <= 0;
+                MDRin <= 0; Mdatain <= 0;
+            end
+            T2: begin 
+                #10 
+                MDRout <= 1; IRin <= 1;
+                #15
+                MDRout <= 0; IRin <= 0;
+            end
+            T3: begin
+                #10 
+                R2out <= 1; Yin <= 1;
+                #15 
+                R2out <= 0; Yin <= 0;
+            end
+            T4: begin
+                R6out <= 1; opcode <= 5'b10000; Zin <= 1;
+                #25 R6out <= 0; Zin <= 0; 
+            end
+            T5: begin 
+                #10
+                ZLowOut <= 1; LOin <= 1;
+                #15
+                ZLowOut <= 0; LOin <= 0;
+            end
+            T6: begin
+                #10
+                ZHighOut <= 1; HIin <= 1;
+                #15 
+                ZHighOut <= 0; HIin <= 0;     
+            end          
+        endcase
+    end
 endmodule

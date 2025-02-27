@@ -151,7 +151,7 @@ module div_tb;
             end
             Reg_load1a: begin
 				        clear <= 0;
-                Mdatain <= 32'b11111111111111111111111111111011;
+                Mdatain <= -32'd5;
                 #10 read <= 1; MDRin <= 1;
                 #15 read <= 0; MDRin <= 0;
             end
@@ -160,7 +160,7 @@ module div_tb;
                 #15 MDRout <= 0; R2in <= 0; //Load R6 with value 30 from MDR
             end
             Reg_load2a: begin 
-                Mdatain <= 32'd25;
+                Mdatain <= 32'd26;
                 #10 read <= 1; MDRin <= 1;
                 #15 read <= 0; MDRin <= 0;
             end

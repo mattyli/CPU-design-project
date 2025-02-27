@@ -148,7 +148,7 @@ module neg_tb;
             end
             Reg_load1a: begin
 				clear <= 0;
-                Mdatain <= 32'b01010;
+                Mdatain <= 32'b1;
                 #10 read <= 1; MDRin <= 1;
                 #10 read <= 0; MDRin <= 0;
             end

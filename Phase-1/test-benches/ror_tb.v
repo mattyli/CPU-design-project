@@ -152,7 +152,7 @@ module ror_tb;
             end
             Reg_load1a: begin
 				clear <= 0;
-                Mdatain <= 32'b00010010001101000101011001111000;
+                Mdatain <= 32'b1;
                 #10 read <= 1; MDRin <= 1;
                 #10 read <= 0; MDRin <= 0;
             end
@@ -204,7 +204,7 @@ module ror_tb;
             T3: begin
                 #10 
                 R3out <= 1; Yin <= 1;
-                #35 
+                #15 
                 R3out <= 0; Yin <= 0;
             end
             T4: begin

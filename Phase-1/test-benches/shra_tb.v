@@ -152,7 +152,7 @@ module shra_tb;
             end
             Reg_load1a: begin
 				clear <= 0;
-                Mdatain <= 32'b11111111111111111111111111110110;
+                Mdatain <= 32'h10000000;
                 #10 read <= 1; MDRin <= 1;
                 #10 read <= 0; MDRin <= 0;
             end

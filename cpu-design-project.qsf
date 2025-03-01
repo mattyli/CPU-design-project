@@ -52,7 +52,7 @@ set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH neg_tb -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH mul_tb -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME tutorial_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tutorial_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id tutorial_tb
@@ -113,10 +113,6 @@ set_global_assignment -name VERILOG_FILE registers/reg32.v
 set_global_assignment -name VERILOG_FILE "Phase-1/components/alu.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/add_tb.v"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name EDA_TEST_BENCH_NAME neg_tb -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME neg_tb -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE tutorial_tb.v -section_id tutorial_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE adder.v -section_id tutorial_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE bus_tb.v -section_id tutorial_tb
@@ -153,42 +149,46 @@ set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/alu.v" -sect
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/bus.v" -section_id or_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/datapath.v" -section_id or_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/or_tb.v" -section_id or_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE registers/regR0.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE mux/mux2_1.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE mux/mux32_1.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE registers/mdr.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg64.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32_PC.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/and32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/not32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/negate32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/or32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/rol32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/ror32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shl32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shla32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shr32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shra32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/sub32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/xor32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/add32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/divide32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/multiply32.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/alu.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE encoders/encoder32_5.v -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/bus.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/datapath.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/add_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/div_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/mul_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/not_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/or_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/sub_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/ror_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shl_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shr_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shra_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/rol_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/and_tb.v" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/neg_tb.v" -section_id neg_tb
+set_global_assignment -name EDA_TEST_BENCH_NAME mul_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME mul_tb -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/regR0.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE mux/mux2_1.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE mux/mux32_1.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/mdr.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg64.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32_PC.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/and32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/not32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/negate32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/or32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/rol32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/ror32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shl32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shla32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shr32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shra32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/sub32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/xor32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/add32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/divide32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/multiply32.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/alu.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE encoders/encoder32_5.v -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/bus.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/datapath.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/add_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/div_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/mul_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/not_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/or_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/sub_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/ror_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shl_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shr_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shra_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/rol_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/and_tb.v" -section_id mul_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/neg_tb.v" -section_id mul_tb

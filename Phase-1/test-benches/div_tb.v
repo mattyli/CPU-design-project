@@ -151,7 +151,7 @@ module div_tb;
             end
             Reg_load1a: begin
 				        clear <= 0;
-                Mdatain <= -32'd5;
+                Mdatain <= 32'd5;
                 #10 read <= 1; MDRin <= 1;
                 #15 read <= 0; MDRin <= 0;
             end

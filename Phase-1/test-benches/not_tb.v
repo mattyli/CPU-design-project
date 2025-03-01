@@ -81,7 +81,8 @@ module not_tb;
     always @(posedge clock) begin
         case (Present_state)
             Default     : #40 Present_state = Reg_load1a;
-            Reg_load1a  : #40 Present_state = T0;
+            Reg_load1a  : #40 Present_state = Reg_load1b;
+            Reg_load1b  : #40 Present_state = T0;
             T0          : #40 Present_state = T1;
             T1          : #40 Present_state = T2;
             T2          : #40 Present_state = T3;

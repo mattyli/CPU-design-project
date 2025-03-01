@@ -33,7 +33,7 @@ module alu(A, B, clock, clear, opcode, C);
 
     // Phase 1 Operations
     negate32 alu_neg(.a(B), .result(neg32_result));
-    not32 alu_not(.a(A), .result(not32_result));
+    not32 alu_not(.a(B), .result(not32_result));
 
     rol32 alu_rol(.a(A), .num_shift(B), .result(rol32_result));
     ror32 alu_ror(.a(A), .num_shift(B), .result(ror32_result));

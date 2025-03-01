@@ -157,8 +157,8 @@ module add_tb;
                 #15 read <= 0; MDRin <= 0;
             end
             Reg_load1b: begin
-                #10 MDRout <= 1; R4in <= 1;
-                #15 MDRout <= 0; R4in <= 0; //Load R6 with value 30 from MDR
+                #10 MDRout <= 1; R3in <= 1;
+                #15 MDRout <= 0; R3in <= 0; //Load R6 with value 30 from MDR
             end
             Reg_load2a: begin 
                 Mdatain <= 32'd25;
@@ -166,8 +166,8 @@ module add_tb;
                 #15 read <= 0; MDRin <= 0;
             end
             Reg_load2b: begin
-                #10 MDRout <= 1; R3in <= 1; //Load R7 with value 25 from MDR
-                #15 MDRout <= 0; R3in <= 0;
+                #10 MDRout <= 1; R7in <= 1; //Load R7 with value 25 from MDR
+                #15 MDRout <= 0; R7in <= 0;
             end
             Reg_load3a: begin
                 Mdatain = 32'd10;
@@ -175,8 +175,8 @@ module add_tb;
                 #15 read <= 0; MDRin <= 0;
             end
             Reg_load3b: begin
-                #10 MDRout <= 1; R7in <= 1; //Initialize R8 with value 0
-                #15 MDRout <= 0; R7in <= 0;
+                #10 MDRout <= 1; R4in <= 1; //Initialize R8 with value 0
+                #15 MDRout <= 0; R4in <= 0;
             end
 
             T0: begin
@@ -203,19 +203,19 @@ module add_tb;
             end
             T3: begin
                 #10 
-                R4out <= 1; Yin <= 1;
+                R3out <= 1; Yin <= 1;
                 #15 
-                R4out <= 0; Yin <= 0;
+                R3out <= 0; Yin <= 0;
             end
             T4: begin
-                R3out <= 1; opcode <= 5'b00011; Zin <= 1;
-                #25 R3out <= 0; Zin <= 0; 
+                R7out <= 1; opcode <= 5'b00011; Zin <= 1;
+                #25 R7out <= 0; Zin <= 0; 
             end
             T5: begin 
                 #10
-                ZLowOut <= 1; R7in <= 1;
+                ZLowOut <= 1; R4in <= 1;
                 #15
-                ZLowOut <= 0; R7in <= 0;
+                ZLowOut <= 0; R4in <= 0;
             end               
         endcase
     end

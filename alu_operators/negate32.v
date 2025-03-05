@@ -11,10 +11,11 @@ module negate32(a, result);
     wire [31:0] inverted;
     wire carry_out;
 
-    not32 inverted (.a(a), .result(inverted));          // the inverted number is on the inverted wire
-    cla_32_bit out (.a(inverted),                       // add one to the inverted result
+    not32 neg_inverted (.a(a), .result(inverted));          // the inverted number is on the inverted wire
+    add32 out (.a(inverted),                       // add one to the inverted result
                     .b(32'd1),                          // constant 1
-                    .carry_in(32'd0), 
+                    .carry_in(1'd0),
+                    .sum(result), 
                     .carry_out(carry_out));             // carry out ignored
 
 endmodule

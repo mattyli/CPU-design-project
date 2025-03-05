@@ -3,7 +3,7 @@
 // R6 holds 30 R7 holds 25
 
 `timescale 1ns/10ps
-module mul_tb;
+module div_tb;
     reg clock, clear;
     reg R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
     reg HIin, LOin, Zin, incPC, MARin, MDRin, read, InPortIn, Yin, IRin, PCin;
@@ -151,7 +151,7 @@ module mul_tb;
             end
             Reg_load1a: begin
 				        clear <= 0;
-                Mdatain <= -32'd25;
+                Mdatain <= 32'd5;
                 #10 read <= 1; MDRin <= 1;
                 #15 read <= 0; MDRin <= 0;
             end
@@ -160,7 +160,7 @@ module mul_tb;
                 #15 MDRout <= 0; R2in <= 0; //Load R6 with value 30 from MDR
             end
             Reg_load2a: begin 
-                Mdatain <= 32'd8;
+                Mdatain <= 32'd26;
                 #10 read <= 1; MDRin <= 1;
                 #15 read <= 0; MDRin <= 0;
             end
@@ -189,7 +189,7 @@ module mul_tb;
             T1: begin
                 #10 
                 PCin <= 1; read <= 1;
-                MDRin <= 1; Mdatain <= 5'b10000;
+                MDRin <= 1; Mdatain <= 5'b01111;
                 #15 
                 PCin <= 0; read <= 0;
                 MDRin <= 0; Mdatain <= 0;
@@ -207,7 +207,7 @@ module mul_tb;
                 R2out <= 0; Yin <= 0;
             end
             T4: begin
-                R6out <= 1; opcode <= 5'b10000; Zin <= 1;
+                R6out <= 1; opcode <= 5'b01111; Zin <= 1;
                 #25 R6out <= 0; Zin <= 0; 
             end
             T5: begin 

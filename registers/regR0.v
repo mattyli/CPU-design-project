@@ -1,7 +1,4 @@
-// defining a 32 bit register
-// refer to Phase 1 doc page 3, figure 2
-
-module reg32 #(parameter q0 = 0) (
+module regR0 #(parameter q0 = 0) (
     clear,            // clear signal
     clock,            // clock signal
     enable,         // write/enable signal
@@ -17,5 +14,3 @@ module reg32 #(parameter q0 = 0) (
       else if (enable) Q <= D;      // if enable, set the output to whatever came from the bus (D)
     end
 endmodule
-
-// https://stackoverflow.com/questions/33459048/what-is-the-difference-between-reg-and-wire-in-a-verilog-module

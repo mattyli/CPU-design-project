@@ -3,7 +3,7 @@
 // R6 holds 30 R7 holds 25
 
 `timescale 1ns/10ps
-module mul_tb;
+module not_tb;
     reg clock, clear;
     reg R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
     reg HIin, LOin, Zin, incPC, MARin, MDRin, read, InPortIn, Yin, IRin, PCin;
@@ -12,9 +12,8 @@ module mul_tb;
     reg[4:0] opcode;
     reg[31:0] Mdatain;
 
-    parameter   Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
-                Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, T0 = 4'b0111,
-                T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101;
+    parameter   Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, T0 = 4'b0111,
+                T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011;
 
     reg[3:0] Present_state = Default;
 
@@ -83,15 +82,11 @@ module mul_tb;
         case (Present_state)
             Default     : #40 Present_state = Reg_load1a;
             Reg_load1a  : #40 Present_state = Reg_load1b;
-            Reg_load1b  : #40 Present_state = Reg_load2a;
-            Reg_load2a  : #40 Present_state = Reg_load2b;
-            Reg_load2b  : #40 Present_state = T0;
+            Reg_load1b  : #40 Present_state = T0;
             T0          : #40 Present_state = T1;
             T1          : #40 Present_state = T2;
             T2          : #40 Present_state = T3;
             T3          : #40 Present_state = T4;
-            T4          : #40 Present_state = T5;
-            T5          : #40 Present_state = T6;
         endcase
     end
 
@@ -99,6 +94,7 @@ module mul_tb;
         case(Present_state)
             Default: begin
 					clear <= 1;
+                    R0in <= 0;
                     R1in <= 0;
                     R2in <= 0;
                     R3in <= 0;
@@ -117,6 +113,7 @@ module mul_tb;
                     HIin <= 0;
                     LOin <= 0;
                     Mdatain <= 32'b0;
+                    R0out <= 0;
                     R1out <= 0;
                     R2out <= 0;
                     R3out <= 0;
@@ -147,37 +144,18 @@ module mul_tb;
                     read <= 0;
                     IRin <= 0;
                     PCin <= 0;
-                    opcode <= 5'b0;
+                    opcode <= 5'b11010;
             end
             Reg_load1a: begin
-				        clear <= 0;
-                Mdatain <= -32'd25;
+				clear <= 0;
+                Mdatain <= 32'b01010;
                 #10 read <= 1; MDRin <= 1;
-                #15 read <= 0; MDRin <= 0;
+                #10 read <= 0; MDRin <= 0;
             end
             Reg_load1b: begin
-                #10 MDRout <= 1; R2in <= 1;
-                #15 MDRout <= 0; R2in <= 0; //Load R6 with value 30 from MDR
+                #10 MDRout <= 1; R0in <= 1;
+                #10 MDRout <= 0; R0in <= 0; //Load R6 with value 30 from MDR
             end
-            Reg_load2a: begin 
-                Mdatain <= 32'd8;
-                #10 read <= 1; MDRin <= 1;
-                #15 read <= 0; MDRin <= 0;
-            end
-            Reg_load2b: begin
-                #10 MDRout <= 1; R6in <= 1; //Load R7 with value 25 from MDR
-                #15 MDRout <= 0; R6in <= 0;
-            end
-            // Reg_load3a: begin
-            //     Mdatain = 32'd10;
-            //     #10 read <= 1; MDRin <= 1; 
-            //     #15 read <= 0; MDRin <= 0;
-            // end
-            // Reg_load3b: begin
-            //     #10 MDRout <= 1; R7in <= 1; //Initialize R8 with value 0
-            //     #15 MDRout <= 0; R7in <= 0;
-            // end
-
             T0: begin
                 #10
                 incPC <= 1; MARin <= 1;     //Mock instruction fetch
@@ -189,7 +167,7 @@ module mul_tb;
             T1: begin
                 #10 
                 PCin <= 1; read <= 1;
-                MDRin <= 1; Mdatain <= 5'b10000;
+                MDRin <= 1; Mdatain <= 5'b10010;
                 #15 
                 PCin <= 0; read <= 0;
                 MDRin <= 0; Mdatain <= 0;
@@ -201,27 +179,15 @@ module mul_tb;
                 MDRout <= 0; IRin <= 0;
             end
             T3: begin
-                #10 
-                R2out <= 1; Yin <= 1;
-                #15 
-                R2out <= 0; Yin <= 0;
+                R0out <= 1; opcode <= 5'b10010; Zin <= 1;
+                #25 R0out <= 0; Zin <= 0; 
             end
-            T4: begin
-                R6out <= 1; opcode <= 5'b10000; Zin <= 1;
-                #25 R6out <= 0; Zin <= 0; 
-            end
-            T5: begin 
+            T4: begin 
                 #10
-                ZLowOut <= 1; LOin <= 1;
+                ZLowOut <= 1; R5in <= 1;
                 #15
-                ZLowOut <= 0; LOin <= 0;
-            end
-            T6: begin
-                #10
-                ZHighOut <= 1; HIin <= 1;
-                #15 
-                ZHighOut <= 0; HIin <= 0;     
-            end          
+                ZLowOut <= 0; R5in <= 0;
+            end               
         endcase
     end
 endmodule

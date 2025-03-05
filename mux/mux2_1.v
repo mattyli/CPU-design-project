@@ -5,7 +5,7 @@ module mux2_1 (
     mux_out  
 );
 
-    input wire [31:0] din_0, in_1; 
+    input wire [31:0] in_0, in_1; 
     input wire select;
     output reg [31:0] mux_out;
 

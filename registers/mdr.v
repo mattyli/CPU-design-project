@@ -18,8 +18,8 @@ module mdr (
     output wire [31:0]Q;
 
     mux2_1 mdmux (
-        .in_0 (Mdatain),
-        .in_1 (BusMuxOut),
+        .Mdatain (Mdatain),
+        .BusMuxOut (BusMuxOut),
         .select (read),
         .mux_out (D)
     );

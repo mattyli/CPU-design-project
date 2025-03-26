@@ -29,7 +29,10 @@ module alu(A, B, clock, clear, opcode, C);
         logic_neg = 5'b10001,  // Negate (2’s complement)
         logic_xor = 5'b01101,  // Logical XOR (not explicitly listed but assuming similar pattern)
         logic_nor = 5'b01110,  // Logical NOR
-        logic_not = 5'b10010;  // NOT (1’s complement)
+        logic_not = 5'b10010,  // NOT (1’s complement)
+        addi = 5'b10100, // Add intermediate
+        andi = 5'b10101, //AND with intermediate
+        ori = 5'b10110; //OR with intermediate
 
     // Phase 1 Operations
     negate32 alu_neg(.a(B), .result(neg32_result));
@@ -113,6 +116,18 @@ module alu(A, B, clock, clear, opcode, C);
             end
             rol: begin
                 C[31:0] = rol32_result;
+                C[63:32] = 32'b0;
+            end
+            addi: begin
+                C[31:0] = add32_result;
+                C[63:32] = {32{add32_result[31]}};
+            end
+            andi: begin
+                C[31:0] = and32_result;
+                C[63:32] = 32'b0;
+            end
+            ori: begin
+                C[31:0] = or32_result;
                 C[63:32] = 32'b0;
             end
         endcase

@@ -32,6 +32,14 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
                BusMuxIn_MDR, BusMuxIn_InPort, RamDataOut,
                Yout, d_pc, MARout, BusMuxOut, C_sign_extended,
                OutPortOut;
+     
+     //Wire used in immediate operations
+     wire [31:0] ALU_input_B;
+     wire ALUBSel; 
+
+
+     //Sign bit is fanned out so that C is extended to 32 bits
+     assign C_sign_extended = {{14{IRdata[18]}}, IRdata[17:0]};
 
     /*
          R0-R7: General Purpose Reg
@@ -73,8 +81,8 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      reg32 IR (clear, clock, IRin, BusMuxOut, IRdata);
 	  
      mdr MDR (.clk(clock), .clr(clear), .read(read), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .Q(BusMuxIn_MDR));
-     mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout))
-     ram RAM (.clk(clock), .addr(MARout), .data(Mdatain), .write(write), .read(read))
+     mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout));
+     ram RAM (.clk(clock), .addr(MARout), .data(Mdatain), .write(write), .read(read));
 
      CON_FF conn_ff (
           .IR(IRdata),
@@ -184,9 +192,17 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
 
      )
 
+     //MUX going into ALU for immediate operations
+     mux2_1 alu_input_mux (
+          .BusMuxOut(BusMuxOut),
+          .Mdatain(C_sign_extended), 
+          .select(ALUBSel),
+          .mux_out(ALU_input_B)
+     );
+
     alu myAlu (
           .A(Yout),
-          .B(BusMuxOut),
+          .B(ALU_input_B),
           .clock(clock),
           .clear(clear),
           .opcode(opcode),

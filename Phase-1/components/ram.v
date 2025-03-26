@@ -8,6 +8,12 @@ module ram (
     reg [31:0] = mem [511:0]
     reg [31:0] = tmp_data
 
+    `ifdef MODEL_TECH
+    initial $readmemh("../../ram.hex", mem)
+    `else
+    initial $readmemh("ram.hex", mem);
+    `endif
+
     always @(posedge clk) begin
         if (write & !read)
             mem[addr] <= data;

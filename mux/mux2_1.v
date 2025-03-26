@@ -1,17 +1,17 @@
 module mux2_1 (
-    in_0,
-    in_1,
+    BusMuxOut,
+    Mdatain,
     select,
     mux_out  
 );
 
-    input wire [31:0] in_0, in_1; 
+    input wire [31:0] BusMuxOut, Mdatain; 
     input wire select;
     output reg [31:0] mux_out;
 
     always@(*)  begin
-        if(select) mux_out <= in_0;
-        else mux_out <= in_1;
+        if(select) mux_out <= Mdatain;
+        else mux_out <= BusMuxOut;
 
     end 
     

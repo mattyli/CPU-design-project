@@ -73,6 +73,9 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      reg32 IR (clear, clock, IRin, BusMuxOut, IRdata);
 	  
      mdr MDR (.clk(clock), .clr(clear), .read(read), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .Q(BusMuxIn_MDR));
+     mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout))
+     ram RAM (.clk(clock), .addr(MARout), .data(Mdatain), .write(write), .read(read))
+
 
      bus myBus (
           // “out” signals (which cause one input to drive the bus): (from the encoder)

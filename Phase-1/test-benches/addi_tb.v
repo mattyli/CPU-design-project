@@ -1,3 +1,4 @@
+//addi R5, R6, -7
 `timescale 1ns/10ps
 module addi_tb;
     reg clock, clear;
@@ -20,7 +21,6 @@ module addi_tb;
         .read(read), .MDRin(MDRin), .Gra(Gra), .Grb(Grb), .Rout(Rout), .Rin(Rin), .Cout(Cout), 
         .opcode(opcode),
         .Mdatain(Mdatain)
-        // add other ports as needed (Rin/Rout flags, etc.)
     );
 
     initial clock = 0;

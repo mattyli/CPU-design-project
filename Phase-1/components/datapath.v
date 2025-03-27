@@ -36,6 +36,8 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      //Wire used in immediate operations
      wire [31:0] ALU_input_B;
      wire ALUBSel; 
+     
+     wire branch_flag;
 
 
      //Sign bit is fanned out so that C is extended to 32 bits
@@ -86,10 +88,10 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
 
      CON_FF conn_ff (
           .IR(IRdata),
-          .BusMuxOut(BusMuxOut)
-          .CON_in(CONN_in)
+          .BusMuxOut(BusMuxOut),
+          .CON_In(CONN_in),
           .CON_Out(branch_flag)
-     )
+     );
 
 
 
@@ -190,7 +192,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
           .R15out  (R15out),
           .C_sign_extended(C_sign_extended)
 
-     )
+     );
 
      //MUX going into ALU for immediate operations
      mux2_1 alu_input_mux (

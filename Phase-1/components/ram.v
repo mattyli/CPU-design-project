@@ -5,11 +5,11 @@ module ram (
         input wire write,
         input wire read
 );
-    reg [31:0] = mem [511:0]
-    reg [31:0] = tmp_data
+    reg [31:0] mem [0:511];
+    reg [31:0] tmp_data;
 
     `ifdef MODEL_TECH
-    initial $readmemh("../../ram.hex", mem)
+    initial $readmemh("../../ram.hex", mem);
     `else
     initial $readmemh("ram.hex", mem);
     `endif
@@ -24,6 +24,6 @@ module ram (
             tmp_data <= mem[addr];
     end
 
-    assign data = read & !write ? tmp_data : 32'bZZZZZZZZ
+    assign data = (read && !write) ? tmp_data : 32'bZZZZZZZZ;
 
 endmodule

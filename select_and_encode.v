@@ -1,4 +1,4 @@
-module SAE(
+module select_and_encode(
     input wire Gra, Grb, Grc, Rin, Rout, BAout,
     input wire [31:0] IR,
     output wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in,
@@ -16,7 +16,9 @@ module SAE(
     assign Grb_and = Grb == 1 ? 4'b1111 : 4'b0000;
     assign Grc_and = Grc == 1 ? 4'b1111 : 4'b0000;
 
-    wire [3:0] decoder_in, decoder_out;
+    wire [3:0] decoder_in;
+    wire [15:0] decoder_out;
+    
     assign decoder_in = (Ra & Gra_and) | (Rb & Grb_and) | (Rc & Grc_and);
 
     decoder4_16 myDecoder(.in(decoder_in), .out(decoder_out));

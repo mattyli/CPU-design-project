@@ -151,6 +151,7 @@ set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/shra_tb.v"
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/rol_tb.v" -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/and_tb.v" -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/neg_tb.v" -section_id neg_tb
+set_global_assignment -name MIF_FILE ram.mif
 set_global_assignment -name HEX_FILE ram.hex
 set_global_assignment -name VERILOG_FILE ram.v
 set_global_assignment -name VERILOG_FILE decoders/decoder4_16.v

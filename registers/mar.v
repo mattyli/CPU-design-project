@@ -11,7 +11,7 @@ module mar(
 				addr <= 0;
         
         else if (MARin) 
-				addr <= BusMuxOut; 
+				addr <= BusMuxOut[7:0]; 
 
     end
 

@@ -1,6 +1,6 @@
 module ram (
         input wire clk,
-        input wire [7:0] addr,
+        input wire [8:0] addr,          // modified because this is supposed to be 9 bits
         input wire [31:0] data_in,
         input wire write,
         input wire read,

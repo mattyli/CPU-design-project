@@ -41,7 +41,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
     */
      
     // this hasn't been declared yet
-     regR0 R0 (clear, clock, R0in, BusMuxOut, BusMuxIn_R0); //input signal is always 0 for R0 (special reg)
+     regR0 R0 (clear, clock, R0in, BAout, BusMuxOut, BusMuxIn_R0); //input signal is always 0 for R0 (special reg)
      reg32 R1 (clear, clock, R1in, BusMuxOut, BusMuxIn_R1);
      reg32 R2 (clear, clock, R2in, BusMuxOut, BusMuxIn_R2);    
      reg32 R3 (clear, clock, R3in, BusMuxOut, BusMuxIn_R3);  
@@ -72,8 +72,10 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      reg32 IR (clear, clock, IRin, BusMuxOut, IRdata);
 	  
      mdr MDR (.clk(clock), .clr(clear), .read(read), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .Q(BusMuxIn_MDR));
-     mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout));
-     ram RAM (.clk(clock), .addr(MARout), .data_in(BusMuxIn_MDR), .write(write), .read(read), .data_out(Mdatain));
+     //mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout));
+
+     reg32 MAR (.clear(clear), .clock(clock), .enable(MARin), .D(BusMuxOut), .Q(MARout));
+     ram RAM (.clk(clock), .addr(MARout[8:0]), .data_in(BusMuxIn_MDR), .write(write), .read(read), .data_out(Mdatain)); // select the lower 9 bits
 
      CON_FF conn_ff (
           .IR(IRdata),

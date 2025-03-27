@@ -1,4 +1,4 @@
-module regR0 #(parameter q0 = 0) (
+module regR0 #(parameter q0 = 32'b0) (
     input wire clear, clock, enable, BAout,
     input wire [31:0] D,   // Input D (from BusMuxOut)
     output reg [31:0] Q    // Output Q (into BusMuxIn)

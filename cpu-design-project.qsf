@@ -61,9 +61,6 @@ set_global_assignment -name EDA_TEST_BENCH_NAME bus_tb -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id bus_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id bus_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME bus_tb -section_id bus_tb
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_NAME and_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id and_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id and_tb
@@ -76,7 +73,12 @@ set_global_assignment -name EDA_TEST_BENCH_NAME neg_tb -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME neg_tb -section_id neg_tb
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name EDA_TEST_BENCH_NAME load_tb1 -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id load_tb1
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id load_tb1
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME load_tb1 -section_id load_tb1
+set_global_assignment -name VERILOG_FILE tutorial_tb.v
+set_global_assignment -name VERILOG_FILE register.v
 set_global_assignment -name VERILOG_FILE "Phase-2/load_tb/load_tb1.v"
 set_global_assignment -name MIF_FILE ram.mif
 set_global_assignment -name HEX_FILE ram.hex
@@ -126,10 +128,9 @@ set_global_assignment -name VERILOG_FILE registers/reg64.v
 set_global_assignment -name VERILOG_FILE registers/reg32.v
 set_global_assignment -name VERILOG_FILE "Phase-1/components/alu.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/add_tb.v"
-set_global_assignment -name EDA_TEST_BENCH_NAME load_tb1 -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id load_tb1
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id load_tb1
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME load_tb1 -section_id load_tb1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_FILE tutorial_tb.v -section_id tutorial_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE adder.v -section_id tutorial_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE bus_tb.v -section_id tutorial_tb
@@ -238,3 +239,4 @@ set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32_PC.v -section_id
 set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg64.v -section_id load_tb1
 set_global_assignment -name EDA_TEST_BENCH_FILE registers/regR0.v -section_id load_tb1
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-2/load_tb/load_tb1.v" -section_id load_tb1
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

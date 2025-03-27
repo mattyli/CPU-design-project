@@ -1,16 +1,22 @@
 module regR0 #(parameter q0 = 0) (
-    clear,            // clear signal
-    clock,            // clock signal
-    enable,         // write/enable signal
-    D,              // input D (from BusMuxOut)
-    Q);               // output Q (into BusMuxIn)
+    input wire clear, clock, enable, BAout,
+    input wire [31:0] D,   // Input D (from BusMuxOut)
+    output reg [31:0] Q    // Output Q (into BusMuxIn)
+);
 
-    input wire clear, clock, enable;
-    input wire [31:0]D;             // wire (connects to Bus)
-    output reg [31:0]Q;             // register (actually stores something)
+    reg [31:0] tmp_reg; 
+
+    initial tmp_reg = q0;  // Initialize tmp_reg to q0
 
     always @(posedge clock) begin
-      if (clear) Q <= 0;              // if clear, set the output to 0
-      else if (enable) Q <= D;      // if enable, set the output to whatever came from the bus (D)
+        if (clear) 
+            Q <= 32'b0;               // If clear is high, set Q to 0
+        else if (BAout) 
+            Q <= 32'b0;               // If BAout is high, set Q to 0
+        else if (enable) 
+            tmp_reg <= D;            // If enable is high, load value from D into tmp_reg
+        else
+            Q <= tmp_reg;            // Otherwise, maintain current value of tmp_reg
     end
+
 endmodule

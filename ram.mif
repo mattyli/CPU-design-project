@@ -1,0 +1,10 @@
+WIDTH = 32;
+DEPTH = 512;
+
+ADDRESS_RADIX = DEC;
+DATA_RADIX = DEC;
+
+CONTENT BEGIN
+    0 : 1;
+    [1..511] : 0;
+END;

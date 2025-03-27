@@ -5,7 +5,7 @@ module ram (
         input wire write,
         input wire read
 );
-    reg [31:0] mem [0:511];
+    reg [31:0] mem [511:0];
     reg [31:0] tmp_data;
 
     `ifdef MODEL_TECH

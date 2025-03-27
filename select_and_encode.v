@@ -16,7 +16,8 @@ module SAE(
     assign Grb_and = Grb == 1 ? 4'b1111 : 4'b0000;
     assign Grc_and = Grc == 1 ? 4'b1111 : 4'b0000;
 
-    wire [3:0] decoder_in, decoder_out;
+    wire [3:0] decoder_in;
+	 wire [15:0] decoder_out;
     assign decoder_in = (Ra & Gra_and) | (Rb & Grb_and) | (Rc & Grc_and);
 
     decoder4_16 myDecoder(.in(decoder_in), .out(decoder_out));

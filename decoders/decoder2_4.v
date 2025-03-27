@@ -1,7 +1,7 @@
 module decoder2_4 (
     input [1:0] in,
     output reg [3:0] out
-)
+);
     always @(*) begin
         out = 4'd0;
         case (in)

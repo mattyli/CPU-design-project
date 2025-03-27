@@ -73,15 +73,15 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      reg32 IR (clear, clock, IRin, BusMuxOut, IRdata);
 	  
      mdr MDR (.clk(clock), .clr(clear), .read(read), .MDRin(MDRin), .BusMuxOut(BusMuxOut), .Mdatain(Mdatain), .Q(BusMuxIn_MDR));
-     mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout))
-     ram RAM (.clk(clock), .addr(MARout), .data(Mdatain), .write(write), .read(read))
+     mar MAR (.clk(clock), .clr(clear), .MARin(MARin), .BusMuxOut(BusMuxOut), .addr(MARout));
+     ram RAM (.clk(clock), .addr(MARout), .data(Mdatain), .write(write), .read(read));
 
      CON_FF conn_ff (
           .IR(IRdata),
-          .BusMuxOut(BusMuxOut)
-          .CON_in(CONN_in)
+          .BusMuxOut(BusMuxOut),
+          .CON_In(CONN_in),
           .CON_Out(branch_flag)
-     )
+     );
 
 
 
@@ -140,7 +140,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
           .BusMuxOut(BusMuxOut)                   
      );
 
-     select_and_encode SAE (
+     SAE mySAE (
           .Gra(Gra),
           .Grb(Grb),
           .Grc(Grc),
@@ -181,8 +181,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
           .R14out  (R14out),
           .R15out  (R15out),
           .C_sign_extended(C_sign_extended)
-
-     )
+     );
 
     alu myAlu (
           .A(Yout),

@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE 5CEBA4F23C7
 set_global_assignment -name TOP_LEVEL_ENTITY datapath
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "18:09:08  JANUARY 29, 2025"
-set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
@@ -52,7 +52,7 @@ set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH neg_tb -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH and_tb -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME tutorial_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tutorial_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id tutorial_tb
@@ -72,6 +72,20 @@ set_global_assignment -name EDA_TEST_BENCH_NAME or_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id or_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id or_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME or_tb -section_id or_tb
+set_global_assignment -name EDA_TEST_BENCH_NAME neg_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id neg_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id neg_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME neg_tb -section_id neg_tb
+set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/muli_tb.v"
+set_global_assignment -name VERILOG_FILE registers/mar.v
+set_global_assignment -name VERILOG_FILE "Phase-1/components/ram.v"
+set_global_assignment -name VERILOG_FILE encoders/encoder2_1.v
+set_global_assignment -name VERILOG_FILE decoders/decoder4_16.v
+set_global_assignment -name VERILOG_FILE decoders/decoder2_4.v
+set_global_assignment -name VERILOG_FILE tutorial_tb.v
+set_global_assignment -name VERILOG_FILE select_and_encode.v
+set_global_assignment -name VERILOG_FILE register.v
+set_global_assignment -name VERILOG_FILE CON_FF.v
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/sub_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/shr_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/shra_tb.v"
@@ -81,7 +95,6 @@ set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/rol_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/not_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/neg_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/div_tb.v"
-set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/mul_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/or_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/and_tb.v"
 set_global_assignment -name VERILOG_FILE registers/reg32_PC.v
@@ -103,7 +116,6 @@ set_global_assignment -name VERILOG_FILE alu_operators/not32.v
 set_global_assignment -name VERILOG_FILE alu_operators/negate32.v
 set_global_assignment -name VERILOG_FILE alu_operators/and32.v
 set_global_assignment -name VERILOG_FILE "Phase-1/components/bus.v"
-set_global_assignment -name VERILOG_FILE "Phase-1/test-benches/bus_tb.v"
 set_global_assignment -name VERILOG_FILE alu_operators/add32.v
 set_global_assignment -name VERILOG_FILE "Phase-1/components/datapath.v"
 set_global_assignment -name VERILOG_FILE encoders/encoder32_5.v
@@ -148,10 +160,6 @@ set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/alu.v" -sect
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/bus.v" -section_id or_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/datapath.v" -section_id or_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/test-benches/or_tb.v" -section_id or_tb
-set_global_assignment -name EDA_TEST_BENCH_NAME neg_tb -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id neg_tb
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME neg_tb -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32.v -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE registers/regR0.v -section_id neg_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE mux/mux2_1.v -section_id neg_tb

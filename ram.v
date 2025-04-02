@@ -11,9 +11,10 @@ module ram (
     initial $readmemh("ram.hex", mem);
 
     assign data_out = (write || !read) ? 32'bz : mem[addr]; 
-
-    always @(posedge clk) begin
-        if (write)
+    
+    always @(posedge clk) begin     // if the write signal is asserted, overwrite memory with the data coming in on the line
+        if (write) begin
             mem[addr] = data_in;
+        end
     end
 endmodule

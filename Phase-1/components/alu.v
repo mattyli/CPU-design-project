@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
 
-module alu(A, B, clock, clear, opcode, C);
+module alu(A, B, clock, clear, opcode, incPC, CONN_out, C);
     input wire [31:0] A, B;                         // 32 bit inputs (could make this variable)
-    input wire clock, clear;                       
+    input wire clock, clear, incPC, CONN_out;       // incPC = control signal to increment the PC, CONN_out = control signal for branch/jump (from CON_FF)                       
     input wire [4:0] opcode;                        // control signal that will determine which operation
     output reg [63:0] C;                            // 64 bit output
 
@@ -116,6 +116,16 @@ module alu(A, B, clock, clear, opcode, C);
                 C[63:32] = 32'b0;
             end
         endcase
+        
+        // this is required if we have the PC incrementor internal to the ALU
+        if (incPC) begin
+            C <= B+1;           // increment the program counter by 1
+        end
+        if (CONN_out) begin
+            C <= A + B;         // increment the program counter to the new address as dictated by the jump/branch instruction
+        end
     end
+
+    
     
 endmodule

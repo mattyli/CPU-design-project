@@ -1,7 +1,4 @@
-// defining a 32 bit register
-// refer to Phase 1 doc page 3, figure 2
-
-module reg32 #(parameter q0 = 0) (
+module regPC #(parameter q0 = 0) (
     clear,            // clear signal
     clock,            // clock signal
     enable,         // write/enable signal

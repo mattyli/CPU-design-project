@@ -25,6 +25,7 @@ module CON_FF (
             2'b11: D = msb_bus;
         endcase
 
+        // set the branch flag
         if(CON_In)
             CON_Out = D;
         else

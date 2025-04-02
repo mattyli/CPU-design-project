@@ -1,3 +1,4 @@
+// use this implementation for PC incrementor external to the ALU
 module reg32_PC #(parameter q0 = 0) (
     clear, 
     clock,

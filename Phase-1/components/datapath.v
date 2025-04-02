@@ -67,7 +67,8 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      reg32 InPort (clear, clock, InPortIn, in_data, BusMuxIn_InPort); 
      reg32 OutPort (clear, clock, OutPortIn, BusMuxOut, OutPortOut);
 
-     reg32_PC PC (clear, clock, incPC, PCin, BusMuxOut, BusMuxIn_PC);
+     // reg32_PC PC (clear, clock, incPC, PCin, BusMuxOut, BusMuxIn_PC);
+     reg32 PC (clear, clock, PCin, BusMuxOut, BusMuxIn_PC);
 
      reg32 IR (clear, clock, IRin, BusMuxOut, IRdata);
 	  
@@ -184,12 +185,16 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
           .C_sign_extended(C_sign_extended)
      );
 
+
+     // modified instantiation because of internal PC incrementor
     alu myAlu (
           .A(Yout),
           .B(BusMuxOut),
           .clock(clock),
           .clear(clear),
           .opcode(opcode),
+          .incPC(incPC),
+          .CONN_out(branch_flag),
           .C(C_Register_Out)
      );
     

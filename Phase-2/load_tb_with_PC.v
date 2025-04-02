@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module load_tb1;
+module load_tb_with_PC;
     reg clock, clear;
     reg read, write;
     reg Gra, Grb, Grc, BAout;
@@ -41,7 +41,7 @@ module load_tb1;
         .read(read),
         .write(write),
         .BAout(BAout),
-        .Rin(Rin),
+        .Rin(Rin),              // Rin feeds into the SAE module and selects the appropriate register, how to select R4...
         .Rout(Rout),
         .Gra(Gra),
         .Grb(Grb),
@@ -75,23 +75,25 @@ module load_tb1;
 
     always@(posedge clock) begin
         case (Present_state)
-            Default     : #40 Present_state = Reg_load1a;
-            Reg_load1a  : #40 Present_state = Reg_load1b;
-            Reg_load1b  : #40 Present_state = Reg_load2a;
-            Reg_load2a  : #40 Present_state = Reg_load2b;
-            Reg_load2b  : #40 Present_state = Reg_load3a;
-            Reg_load3a  : #40 Present_state = Reg_load3b;
-            Reg_load3b  : #40 Present_state = T0;
-            T0          : #40 Present_state = T1;
-            T1          : #40 Present_state = T2;
-            T2          : #40 Present_state = T3;
-            T3          : #40 Present_state = T4;
-            T4          : #40 Present_state = T5;
-            T5          : #40 Present_state = T6;
-            T6          : #40 Present_state = T7;
+            Default     : #40 Present_state = Reg_load1a;       // 0
+            Reg_load1a  : #40 Present_state = Reg_load1b;       // 1
+            Reg_load1b  : #40 Present_state = Reg_load2a;       // 2
+            Reg_load2a  : #40 Present_state = Reg_load2b;       // 3
+            Reg_load2b  : #40 Present_state = Reg_load3a;       // 4
+            Reg_load3a  : #40 Present_state = Reg_load3b;       // 5
+            Reg_load3b  : #40 Present_state = T0;               // 6
+            T0          : #40 Present_state = T1;               // 7 
+            T1          : #40 Present_state = T2;               // 8
+            T2          : #40 Present_state = T3;               // 9
+            T3          : #40 Present_state = T4;               // 10
+            T4          : #40 Present_state = T5;               // 11
+            T5          : #40 Present_state = T6;               // 12
+            T6          : #40 Present_state = T7;               // 13
         endcase
     end
 
+
+    // do ld R4, 0x54 (addr=0x54, value=0x97)
 	always @(Present_state) begin
 		case (Present_state)
 			Default : begin
@@ -128,11 +130,11 @@ module load_tb1;
         		clear = 0;
 			end
             Reg_load1a: begin
-                #10 in_data <= 32'h54; InPortIn <= 1;           // set memory address as 0x54
+                #10 in_data <= 32'h54; InPortIn <= 1;                   // intialize some data into the InPort (0x54)
                 #15 in_data <= 32'hx; InPortIn <= 0;
             end
             Reg_load1b: begin
-                #10 InPortOut <= 1; MARin <= 1;                 // read 
+                #10 InPortOut <= 1; MARin <= 1;                         // load the address 0x54 into the MAR (only lower 9 bits used)
                 #15 InPortOut <= 0; MARin <= 0;
             end
             Reg_load2a: begin
@@ -140,47 +142,47 @@ module load_tb1;
                 #15 in_data <= 32'hx; InPortIn <= 0;
             end
             Reg_load2b: begin
-                #10 InPortOut <= 1; MDRin <= 1;
+                #10 InPortOut <= 1; MDRin <= 1;                         // load the value 0x97 into the MDR 
                 #15 InPortOut <= 0; MDRin <= 0;
             end
             Reg_load3a: begin
-                #10 write <= 1; in_data <= 32'h0; InPortIn <= 1;
+                #10 write <= 1; in_data <= 32'h0; InPortIn <= 1;        // (WRITE IS A RAM CONTROL SIG?) assert the write signal and write 0x0 to the InPort (this is the initial address )
                 #15 write <= 0; InPortIn <= 0;
             end
             Reg_load3b: begin
-                // #10 InPortOut <= 1; PCin <= 1;
+                // #10 InPortOut <= 1; PCin <= 1;                       // Move data from the inport to the PC register
                 // #15 InPortOut <= 0; PCin <= 0;
             end
             T0: begin 
-                #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1;
+                #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1;        // assert PCout, put address on the bus and store in the MAR, then update the PC by 1 (by asserting the signal)
                 #15 PCout <= 0; MARin <= 0; Zin <= 0; incPC = 0;
             end
             T1: begin
-                #10 ZLowOut <= 1; PCin <= 1; read <= 1; MDRin <= 1;
+                #10 ZLowOut <= 1; PCin <= 1; read <= 1; MDRin <= 1;     // PC takes value from ZLow, MDR reads data from the address loaded into the MAR
                 #15 ZLowOut <= 0; PCin <= 0; read <= 0; MDRin <= 0;
             end
             T2: begin
-                #10 MDRout <= 1; IRin <= 1;
+                #10 MDRout <= 1; IRin <= 1;                             // MDR value from the bus is put onto the bus and transferred to the Instruction Reg. (IR)
                 #15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
-                #10 Grb = 1; BAout <= 1; Yin <= 1;
+                #10 Grb = 1; BAout <= 1; Yin <= 1;                      // 
                 #15 Grb = 0; BAout <= 0; Yin <= 0;
             end
             T4: begin
-                #10 Cout <= 1; Zin <= 1; opcode = add;
+                #10 Cout <= 1; Zin <= 1; opcode = add;                  // Add (which values?) 0x0 + 0x54?
                 #15 Cout <= 0; Zin <= 0; opcode = nop;
             end
             T5: begin
-                #10 ZLowOut <= 1; MARin <= 1;
-                #15 ZLowOut <= 0; MARin <= 0;
+                #10 ZLowOut <= 1; MARin <= 1;                           // Transfer address from ZLow to the MARin (0x54)
+                #15 ZLowOut <= 0; MARin <= 0;                           // deassert signals
             end
             T6: begin
-                #10 read <= 1; MDRin <= 1;
+                #10 read <= 1; MDRin <= 1;                              // assert read signal (read from RAM using address provided by MAR), assert MDRin (store the value 0x97 in the MDR)
                 #15 read <= 0; MDRin <= 0;
             end
             T7: begin
-                #10 MDRout <= 1; Gra <= 1; Rin <= 1;
+                #10 MDRout <= 1; Gra <= 1; Rin <= 1;                    // MDR drives the bus (and loads into the register selected by Gra)
                 #15 MDRout <= 0; Gra <= 0; Rin <= 0;
             end
 

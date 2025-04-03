@@ -8,7 +8,7 @@ module ram (
 );
     reg [31:0] mem [511:0];
 
-    initial $readmemh("ram.hex", mem);
+    initial $readmemh("phase_3.hex", mem);
 
     assign data_out = (write || !read) ? 32'bz : mem[addr]; 
     

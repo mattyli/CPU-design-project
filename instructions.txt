@@ -1,0 +1,14 @@
+instructions:
+ld r4, 0x54: 		02000054
+ld r6, 0x63(R2): 	03100063
+ldi r4, 0x54: 		0A000054
+ldi r6, 0x63(R2):	0B100063
+st 0x34, R3:		11800034
+st 0x34(R3), R3:	11980034
+addi R5, R6, -7:	62B7FFF9
+andi R5, R6, 0x95:	6AB00095
+ori R5, R6, 0x95:	72B00095
+mfhi R3:		C9800000
+mflo R2:		C1000000
+out R6:			BB000000
+in R3:			B3000000

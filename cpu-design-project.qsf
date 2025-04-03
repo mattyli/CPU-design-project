@@ -77,7 +77,6 @@ set_global_assignment -name EDA_TEST_BENCH_NAME load_tb1 -section_id eda_simulat
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id load_tb1
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id load_tb1
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME load_tb1 -section_id load_tb1
-set_global_assignment -name VERILOG_FILE tutorial_tb.v
 set_global_assignment -name VERILOG_FILE register.v
 set_global_assignment -name VERILOG_FILE "Phase-2/load_tb/load_tb1.v"
 set_global_assignment -name MIF_FILE ram.mif

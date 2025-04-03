@@ -86,8 +86,14 @@ set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME load_tb_with_PC -section_
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id load_tb_with_PC
 set_global_assignment -name EDA_TEST_BENCH_NAME brzr_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id brzr_tb
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "800 ns" -section_id brzr_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "650 ns" -section_id brzr_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME brzr_tb -section_id brzr_tb
+set_global_assignment -name EDA_TEST_BENCH_NAME branch_all_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "600 ns" -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME branch_all_tb -section_id branch_all_tb
+set_global_assignment -name VERILOG_FILE "Phase-2/branch_tbs/brnz_tb.v"
+set_global_assignment -name VERILOG_FILE "Phase-2/branch_tbs/branch_all_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-2/branch_tbs/brzr_tb.v"
 set_global_assignment -name VERILOG_FILE "Phase-2/load_tb_with_PC.v"
 set_global_assignment -name VERILOG_FILE tutorial_tb.v
@@ -323,4 +329,44 @@ set_global_assignment -name EDA_TEST_BENCH_FILE ram.hex -section_id brzr_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE select_and_encode.v -section_id brzr_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE CON_FF.v -section_id brzr_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-2/branch_tbs/brzr_tb.v" -section_id brzr_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/add32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/and32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/divide32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/divide32.v.bak -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/multiply32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/negate32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/negate32.v.bak -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/nor32.v.bak -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/not32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/or32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/rol32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/ror32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shl32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shla32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shr32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/shra32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/sub32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/sub32.v.bak -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE alu_operators/xor32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE decoders/decoder2_4.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE decoders/decoder4_16.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE encoders/encoder32_5.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE mux/mux32_1.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/datapath.v" -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/alu.v" -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-1/components/bus.v" -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE "Phase-2/branch_tbs/branch_all_tb.v" -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/mar.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/mdr.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg32_PC.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/reg64.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/regPC.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE registers/regR0.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE CON_FF.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ram.hex -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ram.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE select_and_encode.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE register.v -section_id branch_all_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE ram.mif -section_id branch_all_tb
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

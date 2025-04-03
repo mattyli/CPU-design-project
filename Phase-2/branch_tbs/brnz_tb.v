@@ -1,9 +1,6 @@
 /*
-    swap these instructions as necessary for the different branch cases
-    brzr R1, 27 : instruction = 0x9880001B
+    BRNZ R1, 27
     brnz R1, 27 : instruction = 0x9888001B
-    brpl R1, 27 : instruction = 0x9890001B
-    brmi R1, 27 : instruction = 0x9898001B
     if branch should see PC + 1 + C extended = 0 + 1 + 27 = 8 (in PC Q), else see PC Q = 1
     
     MODIFY LINE 84 IN RAM.HEX to SEE CHANGES
@@ -14,14 +11,14 @@
 
     TO RUN DIFFERENT TEST BENCHES:
 
-    - Paste branch instruction hex into ram.hex [0]
+    - Paste branch instruction hex into ram.hex [0] (0x9888001B)
     - modify line 84 in ram.hex [84]
     - run
 */
 
 `timescale 1ns/1ps
 
-module brzr_tb;
+module brnz_tb;
     reg clock, clear;
     reg read, write;
     reg Gra, Grb, Grc, BAout;
@@ -30,8 +27,6 @@ module brzr_tb;
     reg Rout, HIout, LOout,ZLowOut, ZHighOut, MDRout, Cout, InPortOut, PCout;
     reg[4:0] opcode;
     reg[31:0] in_data;
-    reg latched_branch_flag;
-
 
     parameter   
         nop       = 5'b11010,  // No-operation
@@ -53,8 +48,8 @@ module brzr_tb;
 
     parameter   Default = 5'b00000, REG_load1a = 5'b00001, REG_load1b = 5'b00010, REG_load1c = 5'b00011,
                 REG_load1d = 5'b00100, REG_load1e = 5'b00101, REG_load1f = 5'b00110, REG_load1g = 5'b00111,
-                T0 = 5'b01000, T1 = 5'b01001, T2 = 5'b01010, T3 = 5'b01011, T4 = 5'b01100,  T5 = 5'b01101, T6 = 5'b01110,
-                T7 = 5'b01111; //,  = 5'b10000; //, T7 = 5'b10001;
+                T0 = 5'b01000, T1 = 5'b01001, T2 = 5'b01010, T3 = 5'b01011, T3a = 5'b01100, T4 = 5'b01101, T5 = 5'b01110,
+                T6 = 5'b01111, T7 = 5'b10000; //, T7 = 5'b10001;
 
     parameter BRZR = 32'h9880001B, BRNZ = 32'h9888001B, BRPL = 32'h9890001B, BRMI = 32'h9898001B;
 
@@ -114,8 +109,8 @@ module brzr_tb;
             T0          : #40 Present_state = T1;       
             T1          : #40 Present_state = T2;               // 8
             T2          : #40 Present_state = T3;               // 9
-            T3          : #40 Present_state = T4;
-            // T3a         : #40 Present_state = T4;               // 10
+            T3          : #40 Present_state = T3a;
+            T3a         : #40 Present_state = T4;               // 10
             T4          : #40 Present_state = T5;               // 11
             T5          : #40 Present_state = T6;               // 12
             T6          : #40 Present_state = T7;               // 13
@@ -174,7 +169,7 @@ module brzr_tb;
             // DO SOMEHTING
             REG_load1c: begin
                 #10 Grb <= 1; BAout <= 1; Yin <= 1;                         
-                #15 Grb <= 0; BAout <= 0; Yin <= 0;
+                #15 Grb <= 0; BAout <= 0; Yin <= 1;
             end
 
             REG_load1d: begin
@@ -214,17 +209,14 @@ module brzr_tb;
             end
 
             T3: begin
-                #10 Gra <= 1; Rout <= 1; 
-                #15 Gra <= 0; Rout <= 0;  latched_branch_flag = DUT.branch_flag; // ← BLOCKING assignment
-                #5 CONN_in <=1;
-                #5 CONN_in <=0;
-
+                #10 Gra <= 1; Rout <= 1;
+                #15 Gra <= 0; Rout <= 0;
             end
             
-            // T3a: begin
-            //     #10 CONN_in = 1;   // CON_FF evaluates while BusMuxOut = R1 = 0
-            //     #15 CONN_in = 0;
-            // end
+            T3a: begin
+                #10 CONN_in = 1;   // CON_FF evaluates while BusMuxOut = R1 = 0
+                #15 CONN_in = 0;
+            end
             
             T4: begin
                 #10 PCout <= 1; Yin <= 1;
@@ -232,19 +224,9 @@ module brzr_tb;
             end
 
             T5: begin
-                #10 Cout <= 1; Zin <= 1;  opcode = add;             
-                #15 Cout <= 0; Zin <= 0;  opcode = nop;
+                #10 Cout <= 1; Zin <= 1; opcode = nop;             
+                #15 Cout <= 0; Zin <= 0;
             end
-
-            // T6: begin
-            //     if (latched_branch_flag) begin
-            //         $display("Branch taken → PC updated to PC + 1 + C");
-            //         #10 ZLowOut <= 1; PCin <= 1;
-            //         #15 ZLowOut <= 0; PCin <= 0;
-            //     end else begin
-            //         $display("Branch not taken → PC remains at PC + 1");
-            //     end
-            // end
 
             T6: begin
                 #10 ZLowOut <= 1; PCin <= 1;                           // Transfer address from ZLow to the MARin (0x54)

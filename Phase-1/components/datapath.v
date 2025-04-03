@@ -4,7 +4,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      input wire clock, reset, stop;
      input wire [31:0] in_data;
      output wire [31:0] run;
-     wire branch_flag;   
+ 
 
      input wire clear;
      wire [63:0] C_Register_Out;
@@ -149,7 +149,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
           .BusMuxOut(BusMuxOut)                   
      );
 
-     SAE mySAE (
+     select_and_encode mySAE (
           .Gra(Gra),
           .Grb(Grb),
           .Grc(Grc),

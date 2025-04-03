@@ -151,7 +151,7 @@ module addi_tb;
                 #15 Grb = 0; BAout <= 0; Yin <= 0;
             end
             T4: begin
-                #10 Cout <= 1; Zin <= 1; opcode = logic_and;
+                #10 Cout <= 1; Zin <= 1; opcode = add;
                 #15 Cout <= 0; Zin <= 0; opcode = nop;
             end
             T5: begin

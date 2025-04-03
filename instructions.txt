@@ -14,16 +14,17 @@ mfhi R3:		C9800000
 mflo R2:		C1000000
 out R6:			BB000000
 in R3:			B3000000
+jr r5			AA800000
 
 add wave -position insertpoint  \
-sim:/load_tb3/DUT/R4/Q
+sim:/load_tb1/DUT/R4/Q
 add wave -position insertpoint  \
-sim:/load_tb3/DUT/IR/Q
+sim:/load_tb1/DUT/IR/Q
 add wave -position insertpoint  \
-sim:/load_tb3/DUT/MDR/MDR/Q
+sim:/load_tb1/DUT/MDR/MDR/Q
 add wave -position insertpoint  \
-sim:/load_tb3/DUT/MAR/Q
-add wave -position insertpoint sim:/load_tb3/DUT/RAM/*
+sim:/load_tb1/DUT/MAR/Q
+add wave -position insertpoint sim:/load_tb1/DUT/RAM/*
 
 09
 

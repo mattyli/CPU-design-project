@@ -125,7 +125,7 @@ module store_tb1;
         		clear = 0;
 			end
             Reg_load1a: begin
-                #10 in_data <= 32'h098000B6; InPortIn <= 1;
+                #10 in_data <= 32'h09800034; InPortIn <= 1;
                 #15 in_data <= 32'hx; InPortIn <= 0;
             end
             Reg_load1b: begin

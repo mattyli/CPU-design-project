@@ -8,6 +8,9 @@ module CON_FF (
     wire nor_bus, msb_bus;
 	 reg D;
 
+
+    initial CON_Out <= 0;
+
     assign IRin = IR[20:19];
 
     //Nor gate all bus inputs
@@ -24,10 +27,8 @@ module CON_FF (
             2'b10: D = ~msb_bus;
             2'b11: D = msb_bus;
         endcase
-
-        if(CON_In)
-            CON_Out = D;
-        else
-            CON_Out = 1'b0;
+    end
+    always @(CON_In) begin
+        CON_Out <= D;
     end
 endmodule

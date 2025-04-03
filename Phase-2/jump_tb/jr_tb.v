@@ -120,7 +120,7 @@ module jr_tb;
         		clear = 0;
 			end
             Reg_load1a: begin
-                #10 in_data <= 32'h0C000078; InPortIn <= 1;
+                #10 in_data <= 32'h0C000054; InPortIn <= 1;
                 #15 in_data <= 32'hx; InPortIn <= 0;
             end
             Reg_load1b: begin

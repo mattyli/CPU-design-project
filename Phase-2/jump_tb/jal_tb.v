@@ -9,6 +9,7 @@ module jr_tb;
     reg Rout, HIout, LOout,ZLowOut, ZHighOut, MDRout, Cout, InPortOut, PCout;
     reg[4:0] opcode;
     reg[31:0] in_data;
+	reg R8in;
 
     parameter   
         nop       = 5'b11010,  // No-operation
@@ -124,8 +125,8 @@ module jr_tb;
                 #15 in_data <= 32'hx; InPortIn <= 0;
             end
             Reg_load1b: begin
-                #10 InPortOut <= 1; HIin <= 1;
-                #15 InPortOut <= 0; HIin <= 0;
+                #10 InPortOut <= 1; Gra <= 1; Rin <= 1;
+                #15 InPortOut <= 0; Gra <= 0; Rin <= 0;
             end
             T0: begin 
                 #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1;
@@ -140,6 +141,10 @@ module jr_tb;
                 #15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
+                #10 incPC <= 1; PCout <= 1; R8in <= 1;
+                #15 incPC <= 0; PCout <= 0; R8in <= 0;
+            end
+            T4: begin
                 #10 PCin <= 1; Gra = 1; BAout <= 1;
                 #15 PCin <= 0; Gra = 0; BAout <= 0; 
             end

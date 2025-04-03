@@ -79,7 +79,7 @@ module in_tb;
             T0          : #40 Present_state = T1;
             T1          : #40 Present_state = T2;
             T2          : #40 Present_state = T3;
-            T4          : #40 Present_state = T4;
+            T3          : #40 Present_state = T4;
         endcase
     end
 
@@ -132,7 +132,7 @@ module in_tb;
             end
             T3: begin
                 #10 in_data <= 32'h85; InPortIn <= 1;
-                #15 in_data <= 32'h0; InPortIn <= 1; 
+                #15 in_data <= 32'h0; InPortIn <= 0; 
             end
             T4: begin
                 #10 InPortOut <= 1; Gra <= 1; Rin <= 1;

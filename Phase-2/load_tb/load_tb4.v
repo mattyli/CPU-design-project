@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module load_tb1;
+module load_tb4;
     reg clock, clear;
     reg read, write;
     reg Gra, Grb, Grc, BAout;
@@ -78,10 +78,7 @@ module load_tb1;
             Default     : #40 Present_state = Reg_load1a;
             Reg_load1a  : #40 Present_state = Reg_load1b;
             Reg_load1b  : #40 Present_state = Reg_load2a;
-            Reg_load2a  : #40 Present_state = Reg_load2b;
-            Reg_load2b  : #40 Present_state = Reg_load3a;
-            Reg_load3a  : #40 Present_state = Reg_load3b;
-            Reg_load3b  : #40 Present_state = T0;
+            Reg_load2a  : #40 Present_state = T0;
             T0          : #40 Present_state = T1;
             T1          : #40 Present_state = T2;
             T2          : #40 Present_state = T3;
@@ -126,28 +123,16 @@ module load_tb1;
         		clear = 0;
 			end
             Reg_load1a: begin
-                #10 in_data <= 32'h54; InPortIn <= 1;
+                #10 in_data <= 32'h09000078; InPortIn <= 1;
                 #15 in_data <= 32'hx; InPortIn <= 0;
             end
             Reg_load1b: begin
-                #10 InPortOut <= 1; MARin <= 1;
-                #15 InPortOut <= 0; MARin <= 0;
+                #10 InPortOut <= 1; IRin <= 1;
+                #15 InPortOut <= 0; IRin <= 0;
             end
             Reg_load2a: begin
-                #10 in_data <= 32'h97; InPortIn <= 1;
-                #15 in_data <= 32'hx; InPortOut <= 0;
-            end
-            Reg_load2b: begin
-                #10 InPortOut <= 1; MDRin <= 1;
-                #15 InPortOut <= 0; MDRin <= 0;
-            end
-            Reg_load3a: begin
-                #10 write <= 1; in_data <= 32'h0; InPortIn <= 1;
-                #15 write <= 0; InPortIn <= 0;
-            end
-            Reg_load3b: begin
-                // #10 InPortOut <= 1; PCin <= 1;
-                // #15 InPortOut <= 0; PCin <= 0;
+                #10 Cout <= 1; Gra <= 1; Rin <= 1;
+                #15 Cout <= 0; Gra <= 0; Rin <= 0;
             end
             T0: begin 
                 #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1;
@@ -170,8 +155,8 @@ module load_tb1;
                 #15 Cout <= 0; Zin <= 0; opcode = nop;
             end
             T5: begin
-                #10 ZLowOut <= 1; Gra <= 1, Rin <= 1;
-                #15 ZLowOut <= 0; Gra <= 0, Rin <= 0;
+                #10 ZLowOut <= 1; Gra <= 1; Rin <= 1;
+                #15 ZLowOut <= 0; Gra <= 0; Rin <= 0;
             end
         endcase
     end

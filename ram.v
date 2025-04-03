@@ -15,5 +15,6 @@ module ram (
     always @(posedge clk) begin
         if (write)
             mem[addr] = data_in;
+            $writememh("ram.hex", mem);
     end
 endmodule

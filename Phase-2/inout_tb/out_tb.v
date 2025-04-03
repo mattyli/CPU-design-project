@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
-// Mem addr #2
-module load_tb2;
+
+module out_tb;
     reg clock, clear;
     reg read, write;
     reg Gra, Grb, Grc, BAout;
@@ -75,20 +75,10 @@ module load_tb2;
 
     always@(posedge clock) begin
         case (Present_state)
-            Default     : #40 Present_state = Reg_load1a;
-            Reg_load1a  : #40 Present_state = Reg_load1b;
-            Reg_load1b  : #40 Present_state = Reg_load2a;
-            Reg_load2a  : #40 Present_state = Reg_load2b;
-            Reg_load2b  : #40 Present_state = Reg_load3a;
-            Reg_load3a  : #40 Present_state = Reg_load3b;
-            Reg_load3b  : #40 Present_state = T0;
+            Default     : #40 Present_state = T0;
             T0          : #40 Present_state = T1;
             T1          : #40 Present_state = T2;
             T2          : #40 Present_state = T3;
-            T3          : #40 Present_state = T4;
-            T4          : #40 Present_state = T5;
-            T5          : #40 Present_state = T6;
-            T6          : #40 Present_state = T7;
         endcase
     end
 
@@ -127,32 +117,8 @@ module load_tb2;
 				opcode = 0;
         		clear = 0;
 			end
-            Reg_load1a: begin
-                #10 in_data <= 32'h09000078; InPortIn <= 1;
-                #15 in_data <= 32'hx; InPortIn <= 0;
-            end
-            Reg_load1b: begin
-                #10 InPortOut <= 1; IRin <= 1;
-                #15 InPortOut <= 0; IRin <= 0;
-            end
-            Reg_load2a: begin
-                #10 Cout <= 1; Gra <= 1; Rin <= 1;
-                #15 Cout <= 0; Gra <= 0; Rin <= 0;
-            end
-            Reg_load2b: begin
-                // #10 InPortOut <= 1; MDRin <= 1;
-                // #15 InPortOut <= 0; MDRin <= 0;
-            end
-            Reg_load3a: begin
-                // #10 in_data <= 32'h78; InPortIn <= 1;
-                // #15 InPortIn <= 0;
-            end
-            Reg_load3b: begin
-                // #10 InPortOut <= 1; PCin <= 1;
-                // #15 InPortOut <= 0; PCin <= 0;
-            end
             T0: begin 
-                #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1; //PC placed onto bus. PC addr gets sent to MAR,  
+                #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1;
                 #15 PCout <= 0; MARin <= 0; Zin <= 0; incPC = 0;
             end
             T1: begin
@@ -164,26 +130,9 @@ module load_tb2;
                 #15 MDRout <= 0; IRin <= 0;
             end
             T3: begin
-                #10 Grb = 1; BAout <= 1; Yin <= 1;
-                #15 Grb = 0; BAout <= 0; Yin <= 0;
+                #10 Gra = 1; BAout <= 1; OutPortIn <= 1;
+                #15 Gra = 0; BAout <= 0; OutPortIn <= 0;
             end
-            T4: begin
-                #10 Cout <= 1; Zin <= 1; opcode = add;
-                #15 Cout <= 0; Zin <= 0; opcode = nop;
-            end
-            T5: begin
-                #10 ZLowOut <= 1; MARin <= 1;
-                #15 ZLowOut <= 0; MARin <= 0;
-            end
-            T6: begin
-                #10 read <= 1; MDRin <= 1;
-                #15 read <= 0; MDRin <= 0;
-            end
-            T7: begin
-                #10 MDRout <= 1; Gra <= 1; Rin <= 1;
-                #15 MDRout <= 0; Gra <= 0; Rin <= 0;
-            end
-
         endcase
     end
 

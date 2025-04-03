@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module load_tb1;
+module store_tb1;
     reg clock, clear;
     reg read, write;
     reg Gra, Grb, Grc, BAout;
@@ -75,7 +75,10 @@ module load_tb1;
 
     always@(posedge clock) begin
         case (Present_state)
-            Default     : #40 Present_state = T0;
+            Default     : #40 Present_state = Reg_load1a;
+            Reg_load1a  : #40 Present_state = Reg_load1b;
+            Reg_load1b  : #40 Present_state = Reg_load2a;
+            Reg_load2a  : #40 Present_state = T0;
             T0          : #40 Present_state = T1;
             T1          : #40 Present_state = T2;
             T2          : #40 Present_state = T3;
@@ -121,6 +124,18 @@ module load_tb1;
 				opcode = 0;
         		clear = 0;
 			end
+            Reg_load1a: begin
+                #10 in_data <= 32'h098000B6; InPortIn <= 1;
+                #15 in_data <= 32'hx; InPortIn <= 0;
+            end
+            Reg_load1b: begin
+                #10 InPortOut <= 1; IRin <= 1;
+                #15 InPortOut <= 0; IRin <= 0;
+            end
+            Reg_load2a: begin
+                #10 Cout <= 1; Gra <= 1; Rin <= 1;
+                #15 Cout <= 0; Gra <= 0; Rin <= 0;
+            end
             T0: begin 
                 #10 PCout <= 1; MARin <= 1; Zin <= 1; incPC = 1;
                 #15 PCout <= 0; MARin <= 0; Zin <= 0; incPC = 0;
@@ -146,8 +161,12 @@ module load_tb1;
                 #15 ZLowOut <= 0; MARin <= 0;
             end
             T6: begin
-                #10 write <= 1; MDRin <= 1, Gra <= 1, Rout <= 1;
-                #15 write <= 0; MDRin <= 0, Gra <= 0, Rout <= 0;
+                #10 Gra <= 1; Rout <= 1; MDRin <= 1;
+                #15 Gra <= 0; Rout <= 0; MDRin <= 0;
+            end
+            T7: begin
+                #10 write <= 1;
+                #15 write <= 0;
             end
 
         endcase

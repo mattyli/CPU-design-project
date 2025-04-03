@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module load_tb1;
+module load_tb3;
     reg clock, clear;
     reg read, write;
     reg Gra, Grb, Grc, BAout;
@@ -170,8 +170,8 @@ module load_tb1;
                 #15 Cout <= 0; Zin <= 0; opcode = nop;
             end
             T5: begin
-                #10 ZLowOut <= 1; Gra <= 1, Rin <= 1;
-                #15 ZLowOut <= 0; Gra <= 0, Rin <= 0;
+                #10 ZLowOut <= 1; Gra <= 1; Rin <= 1;
+                #15 ZLowOut <= 0; Gra <= 0; Rin <= 0;
             end
         endcase
     end

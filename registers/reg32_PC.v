@@ -1,5 +1,5 @@
-module regPC #(parameter qInitial = 0)(clr, clk, enable, D, Q);
-	input wire clr, clk, enable;
+module reg32_PC #(parameter qInitial = 0)(clr, clk, incPC, enable, D, Q);
+	input wire clr, clk, incPC, enable;
 	input wire [31:0] D;
 	output reg [31:0] Q;
 	

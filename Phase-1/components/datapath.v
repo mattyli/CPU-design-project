@@ -1,5 +1,5 @@
 module datapath(clock, reset, stop, in_data, run, opcode, clear,
-		PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag, R15jal,
+		PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag,
 		Zin, ZLowIn, ZHighIn, PCin, IRin, incPC, InPortIn, OutPortIn, HIout, LOout, ZLowOut, ZHighOut, MDRout, Cout, InPortOut);
      input wire clock, reset, stop;
      input wire [31:0] in_data;
@@ -15,7 +15,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      wire R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, R8out, R9out, R10out, R11out, R12out, R13out, R14out, R15out;
      wire R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in;
     
-     input wire PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag, R15jal,
+     input wire PCout, read, write, BAout, Rin, Rout, Gra, Grb, Grc, CONN_in, MARin, MDRin, HIin, LOin, Yin, jal_flag,
         Zin, ZHighIn, ZLowIn, PCin, IRin, incPC, InPortIn, OutPortIn, HIout, LOout, ZLowOut, ZHighOut, MDRout, Cout, InPortOut;
         
      // declare wires into the bus multiplexer
@@ -39,7 +39,7 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
          R10-R13: Arguement Registers
          R14-15: Return Value Registers
     */
-     
+    assign R8jal = (R8in | jal_flag);
     // this hasn't been declared yet
      regR0 R0 (clear, clock, R0in, BAout, BusMuxOut, BusMuxIn_R0); //input signal is always 0 for R0 (special reg)
      reg32 R1 (clear, clock, R1in, BusMuxOut, BusMuxIn_R1);
@@ -49,14 +49,14 @@ module datapath(clock, reset, stop, in_data, run, opcode, clear,
      reg32 R5 (clear, clock, R5in, BusMuxOut, BusMuxIn_R5);  
      reg32 R6 (clear, clock, R6in, BusMuxOut, BusMuxIn_R6);  
      reg32 R7 (clear, clock, R7in, BusMuxOut, BusMuxIn_R7);  
-     reg32 R8 (clear, clock, R8in, BusMuxOut, BusMuxIn_R8);  
+     reg32 R8 (clear, clock, R8jal, BusMuxOut, BusMuxIn_R8);  
      reg32 R9 (clear, clock, R9in, BusMuxOut, BusMuxIn_R9);  
      reg32 R10 (clear, clock, R10in, BusMuxOut, BusMuxIn_R10);  
      reg32 R11 (clear, clock, R11in, BusMuxOut, BusMuxIn_R11);  
      reg32 R12 (clear, clock, R12in, BusMuxOut, BusMuxIn_R12);  
      reg32 R13 (clear, clock, R13in, BusMuxOut, BusMuxIn_R13);  
      reg32 R14 (clear, clock, R14in, BusMuxOut,  BusMuxIn_R14);  
-     reg32 R15 (clear, clock, R15jal, BusMuxOut,  BusMuxIn_R15); 
+     reg32 R15 (clear, clock, R15in, BusMuxOut,  BusMuxIn_R15); 
 
      reg32 HI (clear, clock, HIin, BusMuxOut, BusMuxIn_HI); 
      reg32 LO (clear, clock, LOin, BusMuxOut, BusMuxIn_LO);

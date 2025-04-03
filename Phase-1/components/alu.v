@@ -29,7 +29,10 @@ module alu(A, B, clock, clear, opcode, incPC, CONN_out, C);
         logic_neg = 5'b10001,  // Negate (2’s complement)
         logic_xor = 5'b01101,  // Logical XOR (not explicitly listed but assuming similar pattern)
         logic_nor = 5'b01110,  // Logical NOR
-        logic_not = 5'b10010;  // NOT (1’s complement)
+        logic_not = 5'b10010,
+        branch = 5'b10011;
+        
+        //;  // NOT (1’s complement)
 
     // Phase 1 Operations
     negate32 alu_neg(.a(B), .result(neg32_result));
@@ -115,15 +118,25 @@ module alu(A, B, clock, clear, opcode, incPC, CONN_out, C);
                 C[31:0] = rol32_result;
                 C[63:32] = 32'b0;
             end
+            branch: begin
+                if (CONN_out) begin
+                    C[31:0] = add32_result;
+                    C[63:32] = 32'b0;
+                end
+                else begin
+                    C[31:0] = A;
+                    C[63:32] = 32'b0;
+                end
+            end
         endcase
         
         // this is required if we have the PC incrementor internal to the ALU
         if (incPC) begin
-            C <= B+1;           // increment the program counter by 1
+            C <= B + 1;           // increment the program counter by 1
         end
-        if (CONN_out) begin
-            C <= A + B;         // increment the program counter to the new address as dictated by the jump/branch instruction
-        end
+        // if (CONN_out) begin
+        //     C <= A + B;         // increment the program counter to the new address as dictated by the jump/branch instruction
+        // end
     end
 
     
